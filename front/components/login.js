@@ -3,24 +3,23 @@ import Head from 'next/head';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { Row, Col, Form, Input, Button } from 'antd';
+import PropTypes from 'prop-types';
 
 import StartLayout from '../components/StartLayout';
+import useInput from '../hooks/useInput';
 
 const SignupBtn = styled(Button)`
   margin-left: 5px;
 `;
 
-const Login = () => {
-  const [id, setId] = useState('');
-  const [password, setPassword] = useState('');
+const Login = ({ setIsLoggedIn }) => {
+  const [id, onChangeId] = useInput('');
+  const [password, onChangePassword] = useInput('');
 
-  const onChangeId = useCallback((e) => {
-    setId(e.target.value);
-  }, []);
-
-  const onChangePassword = useCallback((e) => {
-    setPassword(e.target.value);
-  }, []);
+  const onSubmitForm = useCallback(() => { // 가짜 로그인
+    console.log(id, password);
+    setIsLoggedIn(true);
+  }, [id, password]);
   
   return (
     <>
@@ -29,7 +28,7 @@ const Login = () => {
         <title>로그인 | Feelings</title>
       </Head>
       <StartLayout>
-        <Form>
+        <Form onFinish={onSubmitForm}>
           <Row>
             <Col xs={12} md={12} offset={6}>
               <h2>로그인</h2>
@@ -59,6 +58,10 @@ const Login = () => {
       </StartLayout>
     </>
   );
+};
+
+Login.propTypes = {
+  setIsLoggedIn: PropTypes.func.isRequired,
 };
 
 export default Login;

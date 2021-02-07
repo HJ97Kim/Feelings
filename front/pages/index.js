@@ -1,8 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Main from '../components/main';
+import Login from '../components/login';
+
 
 const Home = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   return (
-    <div>Home</div>
+    <>
+      {isLoggedIn ? <Main /> : <Login setIsLoggedIn={setIsLoggedIn} />}
+    </>
   );
 };
 
