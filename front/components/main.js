@@ -3,6 +3,9 @@ import Head from 'next/head';
 import styled, { createGlobalStyle } from 'styled-components';
 import { Row, Col, Menu, Dropdown, Avatar } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
+import { useDispatch } from 'react-redux';
+
+import { logoutAction } from '../reducers/user';
 
 const Global = createGlobalStyle`
   html,
@@ -34,9 +37,11 @@ const HeaderContents = styled.div`
   margin: 0 auto;
 `;
 
-const Main = ({ setIsLoggedIn }) => {
+const Main = () => {
+  const dispatch = useDispatch();
+
   const onLogOut = useCallback(() => {
-    setIsLoggedIn(false);
+    dispatch(logoutAction());
   }, []);
 
   const menu = (

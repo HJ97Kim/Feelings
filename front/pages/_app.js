@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Head from 'next/head';
 import 'antd/dist/antd.css';
+
+import wrapper from '../store/configureStore';
 // 공통 부분
 const Feelings = ({ Component }) => {
   return (
@@ -19,4 +21,4 @@ Feelings.propTypes = {
   Component: PropTypes.elementType.isRequired,
 }
 
-export default Feelings;
+export default wrapper.withRedux(Feelings);

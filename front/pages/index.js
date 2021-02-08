@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useSelector } from 'react-redux';
+
 import Main from '../components/main';
 import Login from '../components/login';
 
 
 const Home = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { isLoggedIn } = useSelector((state) => state.user);
+  
   return (
     <>
-      {isLoggedIn ? <Main setIsLoggedIn={setIsLoggedIn} /> : <Login setIsLoggedIn={setIsLoggedIn} />}
+      {isLoggedIn ? <Main /> : <Login />}
     </>
   );
 };

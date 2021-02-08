@@ -3,22 +3,24 @@ import Head from 'next/head';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { Row, Col, Form, Input, Button } from 'antd';
-import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
 
 import StartLayout from '../components/StartLayout';
 import useInput from '../hooks/useInput';
+import { loginAction } from '../reducers/user';
 
 const SignupBtn = styled(Button)`
   margin-left: 5px;
 `;
 
-const Login = ({ setIsLoggedIn }) => {
+const Login = () => {
+  const dispatch = useDispatch();
   const [id, onChangeId] = useInput('');
   const [password, onChangePassword] = useInput('');
 
   const onSubmitForm = useCallback(() => { // 가짜 로그인
     console.log(id, password);
-    setIsLoggedIn(true);
+    dispatch(loginAction({ id, password }));
   }, [id, password]);
   
   return (
@@ -58,10 +60,6 @@ const Login = ({ setIsLoggedIn }) => {
       </StartLayout>
     </>
   );
-};
-
-Login.propTypes = {
-  setIsLoggedIn: PropTypes.func.isRequired,
 };
 
 export default Login;
