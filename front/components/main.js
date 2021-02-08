@@ -23,18 +23,33 @@ const BackgroundImg = styled.div`
   background-size: cover;
 `;
 
-const menu = (
-  <Menu>
-    <Menu.Item key="0">
-      <a href="#">내 설정</a>
-    </Menu.Item>
-    <Menu.Item key="1">
-      <a href="#">로그아웃</a>
-    </Menu.Item>
-  </Menu>
-)
+const MainHeader = styled.header`
+  width: 100%;
+  height: 50px;
+  background: #fff;
+`;
 
-const Main = () => {
+const HeaderContents = styled.div`
+  max-width: 1200px;
+  margin: 0 auto;
+`;
+
+const Main = ({ setIsLoggedIn }) => {
+  const onLogOut = useCallback(() => {
+    setIsLoggedIn(false);
+  }, []);
+
+  const menu = (
+    <Menu>
+      <Menu.Item key="0">
+        <a href="#">내 설정</a>
+      </Menu.Item>
+      <Menu.Item key="1">
+        <a onClick={onLogOut}>로그아웃</a>
+      </Menu.Item>
+    </Menu>
+  );
+
   return (
     <>
       <Head>
@@ -43,8 +58,8 @@ const Main = () => {
       </Head>
       <BackgroundImg>
         <Global />
-        <header style={{ width: '100%', height: '50px', background: '#fff' }}>
-          <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+        <MainHeader>
+          <HeaderContents>
             <Row align="middle" style={{ height:'50px' }}>
               <Col span={12} offset={6} style={{ textAlign: 'center' }}>Feelings</Col>
               <Col span={6} style={{ textAlign: 'right' }}>
@@ -55,8 +70,8 @@ const Main = () => {
                 </Dropdown>
               </Col>
             </Row>
-          </div>
-        </header>
+          </HeaderContents>
+        </MainHeader>
       </BackgroundImg>
     </>
   );

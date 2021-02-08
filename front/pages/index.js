@@ -7,7 +7,7 @@ const Home = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   return (
     <>
-      {isLoggedIn ? <Main /> : <Login setIsLoggedIn={setIsLoggedIn} />}
+      {isLoggedIn ? <Main setIsLoggedIn={setIsLoggedIn} /> : <Login setIsLoggedIn={setIsLoggedIn} />}
     </>
   );
 };
