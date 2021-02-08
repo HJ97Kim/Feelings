@@ -1,9 +1,10 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import Head from 'next/head';
 import styled, { createGlobalStyle } from 'styled-components';
 import { Row, Col, Menu, Dropdown, Avatar } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useRouter } from "next/router";
 
 import { logoutAction } from '../reducers/user';
 
@@ -39,6 +40,16 @@ const HeaderContents = styled.div`
 
 const Main = () => {
   const dispatch = useDispatch();
+  const router = useRouter();
+  const { isLoggedIn } = useSelector((state) => state.user);
+
+  // 로그인 안한 사용자 -> 로그인 페이지 이동(/)
+  useEffect(() => {
+    if (!isLoggedIn) {
+      router.push('/');
+      return;
+    }
+  }, [isLoggedIn]);
 
   const onLogOut = useCallback(() => {
     dispatch(logoutAction());
