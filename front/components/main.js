@@ -1,7 +1,8 @@
 import React, { useCallback } from 'react';
 import Head from 'next/head';
 import styled, { createGlobalStyle } from 'styled-components';
-import { Calendar } from 'antd';
+import { Row, Col, Menu, Dropdown, Avatar } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
 
 const Global = createGlobalStyle`
   html,
@@ -22,11 +23,18 @@ const BackgroundImg = styled.div`
   background-size: cover;
 `;
 
-const Main = () => {
-  const onPanelChange = useCallback((value, mode) => {
-    console.log(value.format('YYYY-MM-DD'), mode);
-  }, []);
+const menu = (
+  <Menu>
+    <Menu.Item key="0">
+      <a href="#">내 설정</a>
+    </Menu.Item>
+    <Menu.Item key="1">
+      <a href="#">로그아웃</a>
+    </Menu.Item>
+  </Menu>
+)
 
+const Main = () => {
   return (
     <>
       <Head>
@@ -35,7 +43,20 @@ const Main = () => {
       </Head>
       <BackgroundImg>
         <Global />
-        <Calendar onPanelChange={onPanelChange} />
+        <header style={{ width: '100%', height: '50px', background: '#fff' }}>
+          <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+            <Row align="middle" style={{ height:'50px' }}>
+              <Col span={12} offset={6} style={{ textAlign: 'center' }}>Feelings</Col>
+              <Col span={6} style={{ textAlign: 'right' }}>
+                <Dropdown overlay={menu} trigger={['click']}>
+                  <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
+                    <Avatar size={42} icon={<UserOutlined />} />
+                  </a>
+                </Dropdown>
+              </Col>
+            </Row>
+          </div>
+        </header>
       </BackgroundImg>
     </>
   );
