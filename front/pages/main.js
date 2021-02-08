@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from "next/router";
 
 import { logoutAction } from '../reducers/user';
+import Calendar from '../components/Calendar';
 
 const Global = createGlobalStyle`
   html,
@@ -88,6 +89,7 @@ const Main = () => {
             </Row>
           </HeaderContents>
         </MainHeader>
+        <Calendar />
       </BackgroundImg>
     </>
   );
