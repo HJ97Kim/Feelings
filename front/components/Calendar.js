@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import moment from 'moment';
 import styled from 'styled-components';
-import { Row, Col, Modal, Button } from 'antd';
+import { Row, Col, Modal, Button, Form, Input } from 'antd';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 
 const CalendarControl = styled.div`
@@ -52,6 +52,7 @@ const DayOfTheWeek = styled.td`
 
 const Calendar = () => {
   const [postDate, setPostDate] = useState(''); // 나중에 onChangePostDate로 reducers 설정해줘야함(?)
+  const [text, onChangeText] = useState(''); // textArea value
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
   const [getMoment, setMoment] = useState(moment());
@@ -120,6 +121,10 @@ const Calendar = () => {
     setVisible(false);
   };
 
+  const onSubmit = useCallback(() => {
+
+  }, []);
+
   return (
     <div>
       <CalendarControl>
@@ -152,12 +157,20 @@ const Calendar = () => {
                   <Button key="back" onClick={handleCancel}>
                     취소
                   </Button>,
-                  <Button key="submit" type="primary" loading={loading} onClick={handleOk}>
+                  <Button key="submit" type="primary" loading={loading} onClick={handleOk} htmlType="submit" from="addPost">
                     작성
                   </Button>,
                 ]}
               >
-                <p>test</p>
+                <Form id="addPost" style={{ margin: '10px 0 20px' }} encType="multipart/form-data" onFinish={onSubmit}>
+                  <Input.TextArea
+                    row={10}
+                    value={text}
+                    onChange={onChangeText}
+                    maxLength={140}
+                    placeholder="오늘 당신의 기분은?"
+                  />
+                </Form>
               </Modal>
             </tbody>
           </table>
