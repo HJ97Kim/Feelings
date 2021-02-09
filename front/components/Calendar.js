@@ -1,5 +1,54 @@
 import React, { useState } from 'react';
 import moment from 'moment';
+import styled from 'styled-components';
+import { Row, Col } from 'antd';
+import { LeftOutlined, RightOutlined } from '@ant-design/icons';
+
+const CalendarControl = styled.div`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 20px;
+  height: 80px;
+  font-size: 19px;
+  font-weight: bold;
+`;
+
+const CalendarToday = styled.td`
+  color: #fff;
+  background-color: gray;
+  cursor: pointer;
+  width: 120px;
+  height: 107px;
+  padding: 7px;
+  vertical-align: top;
+`;
+
+const CalendarDays = styled.td`
+  color: #fff;
+  cursor: pointer;
+  width: 120px;
+  height: 107px;
+  padding: 7px;
+  vertical-align: top;
+`;
+
+const CalendarOtherMonths = styled.td`
+  color: #c0bdbd;
+  cursor: pointer;
+  width: 120px;
+  height: 107px;
+  padding: 7px;
+  opacity: 0.6;
+  vertical-align: top;
+`;
+
+const DayOfTheWeek = styled.td`
+  height: 35px;
+  font-weight: 600;
+  text-align: center;
+  background-color: #fff;
+`;
 
 const Calendar = () => {
   const [getMoment, setMoment] = useState(moment());
@@ -20,21 +69,21 @@ const Calendar = () => {
               
               if (moment().format('YYYYMMDD') === days.format('YYYYMMDD')) {
                 return (
-                  <td key={index} style={{ backgroundColor: 'red' }}>
+                  <CalendarToday key={index} id={days.format('YYYYMMDD')}>
                     <span>{days.format('D')}</span>
-                  </td>
+                  </CalendarToday>
                 );
               } else if (days.format('MM') !== today.format('MM')) {
                 return (
-                  <td key={index} style={{ backgroundColor: 'gray' }}>
+                  <CalendarOtherMonths key={index} id={days.format('YYYYMMDD')}>
                     <span>{days.format('D')}</span>
-                  </td>
+                  </CalendarOtherMonths>
                 );
               } else {
                 return (
-                  <td key={index}>
+                  <CalendarDays key={index} id={days.format('YYYYMMDD')}>
                     <span>{days.format('D')}</span>
-                  </td>
+                  </CalendarDays>
                 );
               }
             })
@@ -45,17 +94,32 @@ const Calendar = () => {
   };
 
   return (
-    <div className="Calendar">
-      <div className="CalendarControl">
-        <button onClick={() => { setMoment(getMoment.clone().subtract(1, 'month')) }}>이전달</button>
-        <span>{today.format('YYYY년 MM월')}</span>
-        <button onClick={() => { setMoment(getMoment.clone().add(1, 'month')) }}>다음달</button>
-      </div>
-      <table>
-        <tbody>
-          {calendarArr()}
-        </tbody>
-      </table>
+    <div>
+      <CalendarControl>
+        <LeftOutlined onClick={() => { setMoment(getMoment.clone().subtract(1, 'month')) }} />
+        <div>{today.format('YYYY년 MM월')}</div>
+        <RightOutlined onClick={() => { setMoment(getMoment.clone().add(1, 'month')) }} />
+      </CalendarControl>
+      <Row justify="space-around" align="middle">
+        <Col>
+          <table>
+            <thead>
+              <tr>
+                <DayOfTheWeek><span style={{ color: 'red' }}>일</span></DayOfTheWeek>
+                <DayOfTheWeek><span>월</span></DayOfTheWeek>
+                <DayOfTheWeek><span>화</span></DayOfTheWeek>
+                <DayOfTheWeek><span>수</span></DayOfTheWeek>
+                <DayOfTheWeek><span>목</span></DayOfTheWeek>
+                <DayOfTheWeek><span>금</span></DayOfTheWeek>
+                <DayOfTheWeek><span>토</span></DayOfTheWeek>
+              </tr>
+            </thead>
+            <tbody>
+              {calendarArr()}
+            </tbody>
+          </table>
+        </Col>
+      </Row>
     </div>
   );
 };

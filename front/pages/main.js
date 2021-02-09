@@ -15,7 +15,7 @@ const Global = createGlobalStyle`
   body > div:first-child,
   div#__next,
   div#__next > div {
-    height: 100%;
+    min-height: 100vh;
   }
 `;
 
@@ -23,7 +23,7 @@ const BackgroundImg = styled.div`
   border: 0;
   padding: 0; 
   background-image: url('https://t1.daumcdn.net/cfile/tistory/26AEB633597644FE1E');
-  min-height: 100%;
+  height: 100%;
   background-position: center;
   background-size: cover;
 `;
@@ -79,7 +79,7 @@ const Main = () => {
           <HeaderContents>
             <Row align="middle" style={{ height:'50px' }}>
               <Col span={12} offset={6} style={{ textAlign: 'center' }}>Feelings</Col>
-              <Col span={6} style={{ textAlign: 'right' }}>
+              <Col span={6} style={{ textAlign: 'center' }}>
                 <Dropdown overlay={menu} trigger={['click']}>
                   <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
                     <Avatar size={42} icon={<UserOutlined />} />
@@ -89,7 +89,11 @@ const Main = () => {
             </Row>
           </HeaderContents>
         </MainHeader>
-        <Calendar />
+        <Row justify="space-around" align="middle">
+          <Col xs={24} md={16}>
+            <Calendar />
+          </Col>
+        </Row>
       </BackgroundImg>
     </>
   );
