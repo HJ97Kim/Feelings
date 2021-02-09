@@ -3,6 +3,7 @@ export const initialState = {
   user: null,
   signUpData: {},
   loginData: {},
+  imagePaths: [], // 이미지 저장경로
 };
 
 export const loginAction = (data) => {

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import moment from 'moment';
 import styled from 'styled-components';
-import { Row, Col } from 'antd';
+import { Row, Col, Modal, Button } from 'antd';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 
 const CalendarControl = styled.div`
@@ -51,8 +51,12 @@ const DayOfTheWeek = styled.td`
 `;
 
 const Calendar = () => {
+  const [postDate, setPostDate] = useState(''); // 나중에 onChangePostDate로 reducers 설정해줘야함(?)
+  const [loading, setLoading] = useState(false);
+  const [visible, setVisible] = useState(false);
   const [getMoment, setMoment] = useState(moment());
 
+  // 달력
   const today = getMoment; // totay === moment();
   const firstWeek = today.clone().startOf('month').week();
   const lastWeek = today.clone().endOf('month').week() === 1 ? 53 : today.clone().endOf('month').week();
@@ -69,19 +73,19 @@ const Calendar = () => {
               
               if (moment().format('YYYYMMDD') === days.format('YYYYMMDD')) {
                 return (
-                  <CalendarToday key={index} id={days.format('YYYYMMDD')}>
+                  <CalendarToday key={index} id={days.format('YYYYMMDD')} onClick={showModal}>
                     <span>{days.format('D')}</span>
                   </CalendarToday>
                 );
               } else if (days.format('MM') !== today.format('MM')) {
                 return (
-                  <CalendarOtherMonths key={index} id={days.format('YYYYMMDD')}>
+                  <CalendarOtherMonths key={index} id={days.format('YYYYMMDD')} onClick={showModal}>
                     <span>{days.format('D')}</span>
                   </CalendarOtherMonths>
                 );
               } else {
                 return (
-                  <CalendarDays key={index} id={days.format('YYYYMMDD')}>
+                  <CalendarDays key={index} id={days.format('YYYYMMDD')} onClick={showModal}>
                     <span>{days.format('D')}</span>
                   </CalendarDays>
                 );
@@ -91,6 +95,29 @@ const Calendar = () => {
         </tr>);
     }
     return result;
+  };
+
+  // 모달
+  const showModal = (e) => {
+    const year = e.currentTarget.id.substr(0, 4);
+    const month = e.currentTarget.id.substr(4, 2);
+    const date = e.currentTarget.id.substr(6, 2);
+    const ymd = new Date(year, month - 1, date); // ymd = object(날짜 data)
+    const selectDate = moment(ymd);
+    setPostDate(selectDate.format('YYYY년 MM월 DD일')); // string(ex: 2021년 01월 01일)
+    setVisible(true);
+  };
+
+  const handleOk = () => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      setVisible(false);
+    }, 3000);
+  };
+
+  const handleCancel = () => {
+    setVisible(false);
   };
 
   return (
@@ -116,6 +143,22 @@ const Calendar = () => {
             </thead>
             <tbody>
               {calendarArr()}
+              <Modal
+                visible={visible}
+                title={postDate}
+                onOk={handleOk}
+                onCancel={handleCancel}
+                footer={[
+                  <Button key="back" onClick={handleCancel}>
+                    취소
+                  </Button>,
+                  <Button key="submit" type="primary" loading={loading} onClick={handleOk}>
+                    작성
+                  </Button>,
+                ]}
+              >
+                <p>test</p>
+              </Modal>
             </tbody>
           </table>
         </Col>
