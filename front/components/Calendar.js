@@ -114,7 +114,6 @@ const Calendar = () => {
     const selectDate = moment(ymd);
     setPostDate(selectDate.format('YYYY-MM-DD')); // string(ex: 2021년 01월 01일)
     setVisible(true);
-    console.log(postDate);
   };
 
   const handleOk = () => {
@@ -161,7 +160,7 @@ const Calendar = () => {
             </thead>
             <tbody>
               {calendarArr()}
-              {mainPosts.map((post) => postDate === post.date ? 
+              {mainPosts.find(mainPosts => mainPosts.date === postDate) ? 
                 <Modal
                   visible={visible}
                   title={postDate}
@@ -176,7 +175,7 @@ const Calendar = () => {
                     </Button>,
                   ]}
                 >
-                  {post.content}
+                  {mainPosts.find(mainPosts => mainPosts.date === postDate).content}
                 </Modal>
                 : 
                 <Modal
@@ -203,8 +202,7 @@ const Calendar = () => {
                     />
                   </Form>
                 </Modal>
-              )
-            }
+              }
             </tbody>
           </table>
         </Col>
