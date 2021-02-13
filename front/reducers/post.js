@@ -26,8 +26,8 @@ export const addPost = {
 
 const dummyPost = {
   id: 2,
-  date: '2021-02-13',
-  content: '게시글 더미데이터 입니다2.',
+  date: '2021-02-14',
+  content: '게시글 더미데이터 입니다3.',
   User: {
     id: 1,
     nickname: '김형진',

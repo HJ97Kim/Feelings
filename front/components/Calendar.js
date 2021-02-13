@@ -160,6 +160,7 @@ const Calendar = () => {
             </thead>
             <tbody>
               {calendarArr()}
+              {/* && id === mainPosts.id */}
               {mainPosts.find(mainPosts => mainPosts.date === postDate) ? 
                 <Modal
                   visible={visible}
@@ -183,16 +184,9 @@ const Calendar = () => {
                   title={postDate}
                   onOk={handleOk}
                   onCancel={handleCancel}
-                  footer={[
-                    <Button key="back" onClick={handleCancel}>
-                      취소
-                    </Button>,
-                    <Button key="submit" type="primary" loading={loading} onClick={handleOk} htmlType="submit" from="addPost">
-                      작성
-                    </Button>,
-                  ]}
+                  footer={null}
                 >
-                  <Form id="addPost" style={{ margin: '10px 0 20px' }} encType="multipart/form-data" onFinish={onSubmit}>
+                  <Form style={{ margin: '10px 0 20px' }} encType="multipart/form-data" onFinish={onSubmit}>
                     <Input.TextArea
                       rows={10}
                       value={text}
@@ -200,6 +194,14 @@ const Calendar = () => {
                       maxLength={300}
                       placeholder="오늘 당신의 기분은?"
                     />
+                    <div style={{ float: 'right', margin: "5px 0" }}>
+                      <Button key="back" onClick={handleCancel} style={{ marginRight: '5px' }}>
+                        취소
+                      </Button>
+                      <Button key="submit" type="primary" loading={loading} onClick={handleOk} htmlType="submit">
+                        작성
+                      </Button>
+                    </div>
                   </Form>
                 </Modal>
               }
