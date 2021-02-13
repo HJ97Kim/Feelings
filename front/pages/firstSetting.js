@@ -8,7 +8,7 @@ import StartLayout from '../components/StartLayout';
 import useInput from '../hooks/useInput';
 
 const FirstSetting = () => {
-  const { imagePaths } = useSelector((state) => state.user);
+  const { profileImagePaths } = useSelector((state) => state.user);
   const imageInput = useRef();
   const [nickname, onChangeNickname] = useInput('');
   const [nicknameError, setNicknameError] = useState(false);
@@ -38,11 +38,11 @@ const FirstSetting = () => {
               <Form.Item>
                 <Avatar size={64} icon={<UserOutlined />} />
                 {/* 이미지 기능 임시 */}
-                {imagePaths.map((v) => (
+                {/* {profileImagePaths.map((v) => (
                   <div key={v} style={{ display: 'inline-block' }}>
                     <img src={v} style={{ width: '200px' }} alt={v} />
                   </div>
-                ))}
+                ))} */}
                 <input type="file" multiple hidden ref={imageInput} />
                 <Button onClick={onClickImageUpload}>이미지 업로드</Button>
               </Form.Item>

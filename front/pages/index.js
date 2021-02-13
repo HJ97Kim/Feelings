@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 
 import StartLayout from '../components/StartLayout';
 import useInput from '../hooks/useInput';
-import { loginAction } from '../reducers/user';
+import { loginRequestAction } from '../reducers/user';
 
 const SignupBtn = styled(Button)`
   margin-left: 5px;
@@ -17,20 +17,20 @@ const SignupBtn = styled(Button)`
 const Login = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const { isLoggedIn } = useSelector((state) => state.user);
+  const { isLoggedIn, isLoggingIn } = useSelector((state) => state.user);
   const [id, onChangeId] = useInput('');
   const [password, onChangePassword] = useInput('');
 
   // 로그인 성공 -> 메인페이지 이동
   useEffect(() => {
-    if(isLoggedIn){
-        router.push('/main');
+    if (isLoggedIn) {
+      router.push('/main');
     }
-}, [isLoggedIn]);
+  }, [isLoggedIn]);
 
-  const onSubmitForm = useCallback(() => { // 가짜 로그인
+  const onSubmitForm = useCallback(() => { // 로그인
     console.log(id, password);
-    dispatch(loginAction({ id, password }));
+    dispatch(loginRequestAction({ id, password }));
   }, [id, password]);
   
   return (
@@ -61,7 +61,7 @@ const Login = () => {
                 />
               </Form.Item>
               <div>
-                <Button type="primary" htmlType="submit" loading={false}>로그인</Button>
+                <Button type="primary" htmlType="submit" loading={isLoggingIn}>로그인</Button>
                 <Link href="/signup"><a><SignupBtn>회원가입</SignupBtn></a></Link>
               </div>
             </Col>
