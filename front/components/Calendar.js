@@ -1,4 +1,8 @@
-import React, { useCallback, useState } from 'react';
+/* eslint-disable no-use-before-define */
+/* eslint-disable react/no-array-index-key */
+/* eslint-disable no-plusplus */
+/* eslint-disable no-loop-func */
+import React, { useCallback, useEffect, useState } from 'react';
 // import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
@@ -7,6 +11,7 @@ import { Row, Col, Modal, Button, Form, Input } from 'antd';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 
 import { addPost } from '../reducers/post';
+import useInput from '../hooks/useInput';
 
 const CalendarControl = styled.div`
   display: flex;
@@ -55,14 +60,20 @@ const DayOfTheWeek = styled.td`
 `;
 
 const Calendar = () => {
-  const { mainPosts } = useSelector((state) => state.post);
+  const { mainPosts, addPostDone } = useSelector((state) => state.post);
   const id = useSelector((state) => state.user.me?.id); // 로그인 한 사람 id
   const dispatch = useDispatch();
   const [postDate, setPostDate] = useState(''); // 나중에 onChangePostDate로 reducers 설정해줘야함(?)
-  const [text, setText] = useState(''); // textArea value
+  const [text, onChangeText, setText] = useInput(''); // textArea value
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
   const [getMoment, setMoment] = useState(moment());
+
+  useEffect(() => {
+    if (addPostDone) {
+      setText('');
+    }
+  }, [addPostDone]);
 
   // 달력
   const today = getMoment; // totay === moment();
@@ -77,30 +88,31 @@ const Calendar = () => {
         <tr key={week}>
           {
             Array(7).fill(0).map((data, index) => {
-              let days = today.clone().startOf('year').week(week).startOf('week').add(index, 'day');
-              
+              const days = today.clone().startOf('year').week(week).startOf('week')
+                .add(index, 'day');
+
               if (moment().format('YYYYMMDD') === days.format('YYYYMMDD')) {
                 return (
                   <CalendarToday key={index} id={days.format('YYYYMMDD')} onClick={showModal}>
                     <span>{days.format('D')}</span>
                   </CalendarToday>
                 );
-              } else if (days.format('MM') !== today.format('MM')) {
+              } if (days.format('MM') !== today.format('MM')) {
                 return (
                   <CalendarOtherMonths key={index} id={days.format('YYYYMMDD')} onClick={showModal}>
                     <span>{days.format('D')}</span>
                   </CalendarOtherMonths>
                 );
-              } else {
-                return (
-                  <CalendarDays key={index} id={days.format('YYYYMMDD')} onClick={showModal}>
-                    <span>{days.format('D')}</span>
-                  </CalendarDays>
-                );
               }
+              return (
+                <CalendarDays key={index} id={days.format('YYYYMMDD')} onClick={showModal}>
+                  <span>{days.format('D')}</span>
+                </CalendarDays>
+              );
             })
           }
-        </tr>);
+        </tr>,
+      );
     }
     return result;
   };
@@ -128,21 +140,16 @@ const Calendar = () => {
     setVisible(false);
   };
 
-  const onChangeText = useCallback((e) => {
-    setText(e.target.value);
-  }, []);
-
   const onSubmit = useCallback(() => {
-    dispatch(addPost);
-    setText('');
-  }, []);
+    dispatch(addPost(text));
+  }, [text]);
 
   return (
     <div>
       <CalendarControl>
-        <LeftOutlined onClick={() => { setMoment(getMoment.clone().subtract(1, 'month')) }} />
+        <LeftOutlined onClick={() => { setMoment(getMoment.clone().subtract(1, 'month')); }} />
         <div>{today.format('YYYY년 MM월')}</div>
-        <RightOutlined onClick={() => { setMoment(getMoment.clone().add(1, 'month')) }} />
+        <RightOutlined onClick={() => { setMoment(getMoment.clone().add(1, 'month')); }} />
       </CalendarControl>
       <Row justify="space-around" align="middle">
         <Col>
@@ -160,51 +167,53 @@ const Calendar = () => {
             </thead>
             <tbody>
               {calendarArr()}
-              {/* && id === mainPosts.id */}
-              {mainPosts.find(mainPosts => mainPosts.date === postDate) ? 
-                <Modal
-                  visible={visible}
-                  title={postDate}
-                  onOk={handleOk}
-                  onCancel={handleCancel}
-                  footer={[
-                    <Button key="back" type="danger" onClick={handleCancel}>
-                      삭제
-                    </Button>,
-                    <Button key="submit" type="primary" loading={loading} onClick={handleOk} htmlType="submit">
-                      수정
-                    </Button>,
-                  ]}
-                >
-                  {mainPosts.find(mainPosts => mainPosts.date === postDate).content}
-                </Modal>
-                : 
-                <Modal
-                  visible={visible}
-                  title={postDate}
-                  onOk={handleOk}
-                  onCancel={handleCancel}
-                  footer={null}
-                >
-                  <Form style={{ margin: '10px 0 20px' }} encType="multipart/form-data" onFinish={onSubmit}>
-                    <Input.TextArea
-                      rows={10}
-                      value={text}
-                      onChange={onChangeText}
-                      maxLength={300}
-                      placeholder="오늘 당신의 기분은?"
-                    />
-                    <div style={{ float: 'right', margin: "5px 0" }}>
-                      <Button key="back" onClick={handleCancel} style={{ marginRight: '5px' }}>
-                        취소
-                      </Button>
+              {mainPosts.find((mainPosts) => mainPosts.date === postDate && id === mainPosts.id)
+                ? (
+                  <Modal
+                    visible={visible}
+                    title={postDate}
+                    onOk={handleOk}
+                    onCancel={handleCancel}
+                    footer={[
+                      <Button key="back" type="danger" onClick={handleCancel}>
+                        삭제
+                      </Button>,
                       <Button key="submit" type="primary" loading={loading} onClick={handleOk} htmlType="submit">
-                        작성
-                      </Button>
-                    </div>
-                  </Form>
-                </Modal>
-              }
+                        수정
+                      </Button>,
+                    ]}
+                  >
+                    {mainPosts.find((mainPosts) => mainPosts.date === postDate).content}
+                  </Modal>
+                )
+                : (
+                  <Modal
+                    visible={visible}
+                    title={postDate}
+                    onOk={handleOk}
+                    onCancel={handleCancel}
+                    footer={null}
+                  >
+                    <Form style={{ margin: '10px 0 20px' }} encType="multipart/form-data" onFinish={onSubmit}>
+                      <input type="text" name="date" value={postDate} style={{ display: 'hidden' }} /> {/* 일기 날짜 */}
+                      <Input.TextArea
+                        rows={10}
+                        value={text}
+                        onChange={onChangeText}
+                        maxLength={300}
+                        placeholder="오늘 당신의 기분은?"
+                      />
+                      <div style={{ float: 'right', margin: '5px 0' }}>
+                        <Button key="back" onClick={handleCancel} style={{ marginRight: '5px' }}>
+                          취소
+                        </Button>
+                        <Button key="submit" type="primary" loading={loading} onClick={handleOk} htmlType="submit">
+                          작성
+                        </Button>
+                      </div>
+                    </Form>
+                  </Modal>
+                )}
             </tbody>
           </table>
         </Col>

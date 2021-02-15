@@ -3,7 +3,7 @@ import Head from 'next/head';
 import styled, { createGlobalStyle } from 'styled-components';
 import { Row, Col } from 'antd';
 import { useSelector } from 'react-redux';
-import { useRouter } from "next/router";
+import { useRouter } from 'next/router';
 
 import Calendar from '../components/Calendar';
 import MainHeader from '../components/MainHeader';
@@ -29,15 +29,14 @@ const BackgroundImg = styled.div`
 
 const Main = () => {
   const router = useRouter();
-  const { isLoggedIn } = useSelector((state) => state.user);
+  const { me } = useSelector((state) => state.user);
 
   // 로그인 안한 사용자 -> 로그인 페이지 이동(/)
   useEffect(() => {
-    if (!isLoggedIn) {
+    if (!me) {
       router.push('/');
-      return;
     }
-  }, [isLoggedIn]);
+  }, [me]);
 
   return (
     <>

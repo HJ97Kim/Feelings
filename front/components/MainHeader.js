@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import { Row, Col, Menu, Dropdown, Avatar, Button } from 'antd';
@@ -19,7 +21,7 @@ const HeaderContents = styled.div`
 
 const MainHeader = () => {
   const dispatch = useDispatch();
-  const { me, isLoggingOut } = useSelector((state) => state.user);
+  const { me, logOutLoading } = useSelector((state) => state.user);
 
   const onLogOut = useCallback(() => {
     dispatch(logoutRequestAction());
@@ -31,7 +33,7 @@ const MainHeader = () => {
         <a href="#">내 설정</a>
       </Menu.Item>
       <Menu.Item key="1">
-        <Button onClick={onLogOut} loading={isLoggingOut}>로그아웃</Button>
+        <Button onClick={onLogOut} loading={logOutLoading}>로그아웃</Button>
       </Menu.Item>
     </Menu>
   );
@@ -39,12 +41,12 @@ const MainHeader = () => {
   return (
     <MainHeaderWrap>
       <HeaderContents>
-        <Row align="middle" style={{ height:'50px' }}>
+        <Row align="middle" style={{ height: '50px' }}>
           <Col span={12} offset={6} style={{ textAlign: 'center' }}>Feelings</Col>
           <Col span={6} style={{ textAlign: 'center' }}>
             {/* <span style={{ paddingRight: "10px" }}>안녕하세요 {me.nickname}님</span> 로그아웃시 에러남 */}
             <Dropdown overlay={menu} trigger={['click']}>
-              <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
+              <a className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
                 <Avatar size={42} icon={<UserOutlined />} />
               </a>
             </Dropdown>

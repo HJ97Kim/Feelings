@@ -4,7 +4,7 @@ import Link from 'next/link';
 import styled from 'styled-components';
 import { Row, Col, Form, Input, Button } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { useRouter } from "next/router";
+import { useRouter } from 'next/router';
 
 import StartLayout from '../components/StartLayout';
 import useInput from '../hooks/useInput';
@@ -17,22 +17,22 @@ const SignupBtn = styled(Button)`
 const Login = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const { isLoggedIn, isLoggingIn } = useSelector((state) => state.user);
-  const [id, onChangeId] = useInput('');
+  const { logInDone, logInLoading } = useSelector((state) => state.user);
+  const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');
 
   // 로그인 성공 -> 메인페이지 이동
   useEffect(() => {
-    if (isLoggedIn) {
+    if (logInDone) {
       router.push('/main');
     }
-  }, [isLoggedIn]);
+  }, [logInDone]);
 
   const onSubmitForm = useCallback(() => { // 로그인
-    console.log(id, password);
-    dispatch(loginRequestAction({ id, password }));
-  }, [id, password]);
-  
+    console.log(email, password);
+    dispatch(loginRequestAction({ email, password }));
+  }, [email, password]);
+
   return (
     <>
       <Head>
@@ -45,23 +45,23 @@ const Login = () => {
             <Col xs={12} md={12} offset={6}>
               <h2>로그인</h2>
               <Form.Item>
-                <label htmlFor="user-id">Email</label>
+                <label htmlFor="user-email">Email</label>
                 <br />
-                <Input name="user-id" value={id} onChange={onChangeId} required />
+                <Input name="user-email" type="email" value={email} onChange={onChangeEmail} required />
               </Form.Item>
               <Form.Item>
                 <label htmlFor="user-password">Password</label>
                 <br />
-                <Input 
-                  name="user-password" 
-                  type="password" 
-                  value={password} 
-                  onChange={onChangePassword} 
-                  required 
+                <Input
+                  name="user-password"
+                  type="password"
+                  value={password}
+                  onChange={onChangePassword}
+                  required
                 />
               </Form.Item>
               <div>
-                <Button type="primary" htmlType="submit" loading={isLoggingIn}>로그인</Button>
+                <Button type="primary" htmlType="submit" loading={logInLoading}>로그인</Button>
                 <Link href="/signup"><a><SignupBtn>회원가입</SignupBtn></a></Link>
               </div>
             </Col>
