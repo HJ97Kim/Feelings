@@ -3,15 +3,13 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable no-loop-func */
 import React, { useCallback, useEffect, useState } from 'react';
-// import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import styled from 'styled-components';
 import { Row, Col, Modal, Button, Form, Input } from 'antd';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 
-import { addPost } from '../reducers/post';
-import useInput from '../hooks/useInput';
+import { addPost, ADD_POST_REQUEST } from '../reducers/post';
 
 const CalendarControl = styled.div`
   display: flex;
@@ -60,11 +58,11 @@ const DayOfTheWeek = styled.td`
 `;
 
 const Calendar = () => {
+  const dispatch = useDispatch();
   const { mainPosts, addPostDone } = useSelector((state) => state.post);
   const id = useSelector((state) => state.user.me?.id); // 로그인 한 사람 id
-  const dispatch = useDispatch();
   const [postDate, setPostDate] = useState(''); // 나중에 onChangePostDate로 reducers 설정해줘야함(?)
-  const [text, onChangeText, setText] = useInput(''); // textArea value
+  const [text, setText] = useState(''); // textArea value
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
   const [getMoment, setMoment] = useState(moment());
@@ -133,16 +131,26 @@ const Calendar = () => {
     setTimeout(() => {
       setLoading(false);
       setVisible(false);
-    }, 3000);
+    }, 1000);
   };
 
   const handleCancel = () => {
     setVisible(false);
   };
 
+  const onChangeText = useCallback((e) => {
+    setText(e.target.value);
+  }, []);
+
   const onSubmit = useCallback(() => {
-    dispatch(addPost(text));
-  }, [text]);
+    dispatch({
+      type: ADD_POST_REQUEST,
+      data: { content: text, date: postDate },
+    });
+  }, [text, postDate]);
+  // const onSubmit = useCallback(() => {
+  //   dispatch(addPost(text));
+  // }, [text]);
 
   return (
     <div>
@@ -167,7 +175,8 @@ const Calendar = () => {
             </thead>
             <tbody>
               {calendarArr()}
-              {mainPosts.find((mainPosts) => mainPosts.date === postDate && id === mainPosts.id)
+              {/* && id === mainPosts.User.id */}
+              {mainPosts.find((mainPosts) => mainPosts.date === postDate)
                 ? (
                   <Modal
                     visible={visible}
@@ -195,7 +204,6 @@ const Calendar = () => {
                     footer={null}
                   >
                     <Form style={{ margin: '10px 0 20px' }} encType="multipart/form-data" onFinish={onSubmit}>
-                      <input type="text" name="date" value={postDate} style={{ display: 'hidden' }} /> {/* 일기 날짜 */}
                       <Input.TextArea
                         rows={10}
                         value={text}

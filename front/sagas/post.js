@@ -4,7 +4,7 @@ import axios from 'axios';
 import { ADD_POST_REQUEST, ADD_POST_SUCCESS, ADD_POST_FAILURE } from '../reducers/post';
 
 function addPostAPI(data) {
-  // return axios.post('/api/post', data);
+  return axios.post('/api/post', data);
 }
 
 function* addPost(action) {
@@ -13,7 +13,7 @@ function* addPost(action) {
     yield delay(1000);
     yield put({
       type: ADD_POST_SUCCESS,
-      // data: result.data
+      data: action.data,
     });
   } catch (err) {
     console.error(err);

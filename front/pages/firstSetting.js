@@ -1,7 +1,7 @@
 import React, { useCallback, useRef, useState } from 'react';
 import Head from 'next/head';
 import { Row, Col, Form, Input, Button, Avatar } from 'antd';
-import { UserOutlined } from '@ant-design/icons'
+import { UserOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
 
 import StartLayout from '../components/StartLayout';
@@ -31,7 +31,7 @@ const FirstSetting = () => {
         <title>회원가입 | Feelings</title>
       </Head>
       <StartLayout>
-      <Form onFinish={onSubmit}>
+        <Form onFinish={onSubmit}>
           <Row>
             <Col xs={12} md={12} offset={6}>
               <h2>프로필 설정</h2>
