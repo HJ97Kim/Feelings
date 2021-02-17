@@ -2,15 +2,14 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable no-plusplus */
 /* eslint-disable no-loop-func */
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import styled from 'styled-components';
-import { Row, Col, Modal } from 'antd';
+import { Row, Col, Modal, Button, Form, Input } from 'antd';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 
-import PostForm from './PostForm';
-import Diary from './Diary';
+import { ADD_POST_REQUEST, REMOVE_POST_REQUEST } from '../reducers/post';
 
 const CalendarControl = styled.div`
   display: flex;
@@ -59,11 +58,20 @@ const DayOfTheWeek = styled.td`
 `;
 
 const Calendar = () => {
-  const { mainPosts } = useSelector((state) => state.post);
+  const dispatch = useDispatch();
+  const { mainPosts, addPostDone, addPostLoading, removePostLoading } = useSelector((state) => state.post);
   const id = useSelector((state) => state.user.me?.id); // 로그인 한 사람 id
   const [postDate, setPostDate] = useState('');
+  const [postId, setPostId] = useState(''); // test
+  const [text, setText] = useState(''); // textArea value
   const [visible, setVisible] = useState(false);
   const [getMoment, setMoment] = useState(moment());
+
+  useEffect(() => {
+    if (addPostDone) {
+      setText('');
+    }
+  }, [addPostDone]);
 
   // 달력
   const today = getMoment; // totay === moment();
@@ -117,9 +125,38 @@ const Calendar = () => {
     setVisible(true);
   };
 
+  useEffect(() => {
+    if (mainPosts.find((post) => post.date === postDate && id === post.User.id)) {
+      setPostId(mainPosts.find((post) => post.date === postDate).id);
+    }
+    console.log('postId: ', postId);
+    console.log('postDate: ', postDate);
+  }, [postId, postDate]);
+
   const handleCancel = () => {
     setVisible(false);
   };
+
+  const onChangeText = useCallback((e) => {
+    setText(e.target.value);
+  }, []);
+
+  const onSubmit = useCallback(() => {
+    dispatch({
+      type: ADD_POST_REQUEST,
+      data: { content: text, date: postDate },
+    });
+    setVisible(false);
+  }, [text, postDate]);
+
+  const onRemovePost = useCallback(() => {
+    console.log('remove', postId);
+    dispatch({
+      type: REMOVE_POST_REQUEST,
+      data: postId,
+    });
+    setVisible(false);
+  }, []);
 
   return (
     <div>
@@ -144,25 +181,53 @@ const Calendar = () => {
             </thead>
             <tbody>
               {calendarArr()}
-              <Modal
-                visible={visible}
-                title={postDate}
-                onCancel={handleCancel}
-                footer={null}
-              >
-                {mainPosts.find((post) => post.date === postDate && id === post.User.id)
-                  ? (
-                    <Diary
-                      postDate={postDate}
-                      setVisible={setVisible}
-                      post={
-                        mainPosts.find((post) => post.date === postDate && id === post.User.id)
-                      }
-                    />
-                  ) : (
-                    <PostForm postDate={postDate} setVisible={setVisible} />
-                  )}
-              </Modal>
+              {mainPosts.find((post) => post.date === postDate && id === post.User.id)
+                ? (
+                  <Modal
+                    visible={visible}
+                    title={postDate}
+                    onCancel={handleCancel}
+                    footer={null}
+                  >
+                    <div>
+                      {mainPosts.find((post) => post.date === postDate).content}
+                    </div>
+                    <div style={{ textAlign: 'right' }}>
+                      <Button key="back" type="primary" onClick={handleCancel} style={{ marginRight: '5px' }}>
+                        수정
+                      </Button>
+                      <Button key="submit" type="danger" loading={removePostLoading} onClick={onRemovePost} htmlType="submit">
+                        삭제
+                      </Button>
+                    </div>
+                  </Modal>
+                )
+                : (
+                  <Modal
+                    visible={visible}
+                    title={postDate}
+                    onCancel={handleCancel}
+                    footer={null}
+                  >
+                    <Form style={{ margin: '10px 0 20px' }} encType="multipart/form-data" onFinish={onSubmit}>
+                      <Input.TextArea
+                        rows={10}
+                        value={text}
+                        onChange={onChangeText}
+                        maxLength={300}
+                        placeholder="오늘 당신의 기분은?"
+                      />
+                      <div style={{ float: 'right', margin: '5px 0' }}>
+                        <Button key="back" onClick={handleCancel} style={{ marginRight: '5px' }}>
+                          취소
+                        </Button>
+                        <Button key="submit" type="primary" loading={addPostLoading} htmlType="submit">
+                          작성
+                        </Button>
+                      </div>
+                    </Form>
+                  </Modal>
+                )}
             </tbody>
           </table>
         </Col>
