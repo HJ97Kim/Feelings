@@ -2,6 +2,8 @@ import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Button } from 'antd';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faLaughSquint, faSmile, faMeh, faSadCry, faAngry } from '@fortawesome/free-solid-svg-icons';
 
 import { REMOVE_POST_REQUEST } from '../reducers/post';
 
@@ -22,10 +24,28 @@ const Diary = ({ setVisible, post }) => {
     setVisible(false);
   }, []);
 
+  const feelingIcon = () => {
+    if (post.feeling === 'best') {
+      return <FontAwesomeIcon icon={faLaughSquint} size="4x" />;
+    }
+    if (post.feeling === 'good') {
+      return <FontAwesomeIcon icon={faSmile} size="4x" />;
+    }
+    if (post.feeling === 'soso') {
+      return <FontAwesomeIcon icon={faMeh} size="4x" />;
+    }
+    if (post.feeling === 'sad') {
+      return <FontAwesomeIcon icon={faSadCry} size="4x" />;
+    }
+    if (post.feeling === 'angry') {
+      return <FontAwesomeIcon icon={faAngry} size="4x" />;
+    }
+  };
+
   return (
     <>
       <div>
-        {post.feeling}
+        {feelingIcon()}
       </div>
       <div>
         {post.content}

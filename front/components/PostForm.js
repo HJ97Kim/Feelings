@@ -2,6 +2,8 @@ import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Form, Input } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faLaughSquint, faSmile, faMeh, faSadCry, faAngry } from '@fortawesome/free-solid-svg-icons';
 
 import { ADD_POST_REQUEST } from '../reducers/post';
 
@@ -40,11 +42,16 @@ const PostForm = ({ postDate, setVisible }) => {
 
   return (
     <Form style={{ margin: '10px 0 20px' }} encType="multipart/form-data" onFinish={onSubmit}>
-      <input type="radio" name="feeling" value="best" onChange={onChangeFeelings} />최고야!
-      <input type="radio" name="feeling" value="good" onChange={onChangeFeelings} />좋아!
-      <input type="radio" name="feeling" value="soso" onChange={onChangeFeelings} />그냥그래!
-      <input type="radio" name="feeling" value="sad" onChange={onChangeFeelings} />슬퍼!
-      <input type="radio" name="feeling" value="angry" onChange={onChangeFeelings} />짜증나!
+      <input type="radio" id="best" name="feeling" value="best" onChange={onChangeFeelings} />
+      <label htmlFor="best"><FontAwesomeIcon icon={faLaughSquint} size="4x" /></label>
+      <input type="radio" id="good" name="feeling" value="good" onChange={onChangeFeelings} />
+      <label htmlFor="good"><FontAwesomeIcon icon={faSmile} size="4x" /></label>
+      <input type="radio" id="soso" name="feeling" value="soso" onChange={onChangeFeelings} />
+      <label htmlFor="soso"><FontAwesomeIcon icon={faMeh} size="4x" /></label>
+      <input type="radio" id="sad" name="feeling" value="sad" onChange={onChangeFeelings} />
+      <label htmlFor="sad"><FontAwesomeIcon icon={faSadCry} size="4x" /></label>
+      <input type="radio" id="angry" name="feeling" value="angry" onChange={onChangeFeelings} />
+      <label htmlFor="angry"><FontAwesomeIcon icon={faAngry} size="4x" /></label>
       <Input.TextArea
         rows={10}
         value={text}
