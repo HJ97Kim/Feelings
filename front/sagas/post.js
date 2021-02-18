@@ -21,8 +21,9 @@ function* addPost(action) {
       type: ADD_POST_SUCCESS,
       data: {
         id,
+        date: action.data.date,
+        feeling: action.data.feeling,
         content: action.data.content,
-        date: action.data.date, // 확인해야함 (작성날짜 들어가는지)
       },
     });
     yield put({

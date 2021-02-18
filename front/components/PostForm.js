@@ -8,11 +8,13 @@ import { ADD_POST_REQUEST } from '../reducers/post';
 const PostForm = ({ postDate, setVisible }) => {
   const dispatch = useDispatch();
   const [text, setText] = useState(''); // textArea value
+  const [feelings, setFeelings] = useState('');
   const { addPostDone, addPostLoading } = useSelector((state) => state.post);
 
   useEffect(() => {
     if (addPostDone) {
       setText('');
+      setFeelings('');
     }
   }, [addPostDone]);
 
@@ -20,10 +22,14 @@ const PostForm = ({ postDate, setVisible }) => {
     setText(e.target.value);
   }, []);
 
+  const onChangeFeelings = useCallback((e) => {
+    setFeelings(e.target.value);
+  }, []);
+
   const onSubmit = useCallback(() => {
     dispatch({
       type: ADD_POST_REQUEST,
-      data: { content: text, date: postDate },
+      data: { content: text, date: postDate, feeling: feelings },
     });
     setVisible(false);
   }, [text, postDate]);
@@ -34,6 +40,11 @@ const PostForm = ({ postDate, setVisible }) => {
 
   return (
     <Form style={{ margin: '10px 0 20px' }} encType="multipart/form-data" onFinish={onSubmit}>
+      <input type="radio" name="feeling" value="best" onChange={onChangeFeelings} />최고야!
+      <input type="radio" name="feeling" value="good" onChange={onChangeFeelings} />좋아!
+      <input type="radio" name="feeling" value="soso" onChange={onChangeFeelings} />그냥그래!
+      <input type="radio" name="feeling" value="sad" onChange={onChangeFeelings} />슬퍼!
+      <input type="radio" name="feeling" value="angry" onChange={onChangeFeelings} />짜증나!
       <Input.TextArea
         rows={10}
         value={text}

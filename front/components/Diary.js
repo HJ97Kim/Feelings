@@ -25,6 +25,9 @@ const Diary = ({ setVisible, post }) => {
   return (
     <>
       <div>
+        {post.feeling}
+      </div>
+      <div>
         {post.content}
       </div>
       <div style={{ textAlign: 'right' }}>

@@ -4,6 +4,7 @@ export const initialState = {
   mainPosts: [{ // 더미데이터
     id: 1,
     date: '2021-02-12', // 일기 작성날짜 (현재 날짜 아님 선택 날짜)
+    feeling: 'soso', // 기분상태
     User: {
       id: 1,
       nickname: '김형진',
@@ -29,6 +30,7 @@ export const REMOVE_POST_FAILURE = 'REMOVE_POST_FAILURE';
 const dummyPost = (data) => ({
   id: data.id,
   date: data.date, // 확인해야함
+  feeling: data.feeling,
   User: {
     id: 1,
     nickname: '김형진',
