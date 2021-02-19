@@ -1,11 +1,16 @@
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { Button } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLaughSquint, faSmile, faMeh, faSadCry, faAngry } from '@fortawesome/free-solid-svg-icons';
 
 import { REMOVE_POST_REQUEST } from '../reducers/post';
+
+const FeelingsEmoticon = styled(FontAwesomeIcon)`
+  color: ${(props) => props.color};
+`;
 
 const Diary = ({ setVisible, post }) => {
   const dispatch = useDispatch();
@@ -26,31 +31,31 @@ const Diary = ({ setVisible, post }) => {
 
   const feelingIcon = () => {
     if (post.feeling === 'best') {
-      return <FontAwesomeIcon icon={faLaughSquint} size="4x" />;
+      return <FeelingsEmoticon color="#fb8c00" icon={faLaughSquint} size="4x" />;
     }
     if (post.feeling === 'good') {
-      return <FontAwesomeIcon icon={faSmile} size="4x" />;
+      return <FeelingsEmoticon color="#fff176" icon={faSmile} size="4x" />;
     }
     if (post.feeling === 'soso') {
-      return <FontAwesomeIcon icon={faMeh} size="4x" />;
+      return <FeelingsEmoticon color="#9ccc65" icon={faMeh} size="4x" />;
     }
     if (post.feeling === 'sad') {
-      return <FontAwesomeIcon icon={faSadCry} size="4x" />;
+      return <FeelingsEmoticon color="#303f9f" icon={faSadCry} size="4x" />;
     }
     if (post.feeling === 'angry') {
-      return <FontAwesomeIcon icon={faAngry} size="4x" />;
+      return <FeelingsEmoticon color="#e53935" icon={faAngry} size="4x" />;
     }
   };
 
   return (
     <>
-      <div>
+      <div style={{ textAlign: 'center' }}>
         {feelingIcon()}
       </div>
       <div>
         {post.content}
       </div>
-      <div style={{ textAlign: 'right' }}>
+      <div style={{ textAlign: 'right', marginBottom: '20px' }}>
         <Button key="back" type="primary" onClick={handleCancel} style={{ marginRight: '5px' }}>
           수정
         </Button>

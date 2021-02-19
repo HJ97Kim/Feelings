@@ -1,11 +1,32 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Form, Input } from 'antd';
+import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLaughSquint, faSmile, faMeh, faSadCry, faAngry } from '@fortawesome/free-solid-svg-icons';
 
 import { ADD_POST_REQUEST } from '../reducers/post';
+
+const FeelingsEmoticonWrap = styled.div`
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-evenly;
+`;
+
+const FeelingsEmoticon = styled.label`
+  color: ${(props) => props.color};
+  opacity: 0.2;
+  cursor: pointer;
+`;
+
+const EmoticonInput = styled.input`
+  display: none;
+  &:hover + ${FeelingsEmoticon},
+  &:checked + ${FeelingsEmoticon} {
+    opacity: 1;
+  }
+`;
 
 const PostForm = ({ postDate, setVisible }) => {
   const dispatch = useDispatch();
@@ -42,16 +63,18 @@ const PostForm = ({ postDate, setVisible }) => {
 
   return (
     <Form style={{ margin: '10px 0 20px' }} encType="multipart/form-data" onFinish={onSubmit}>
-      <input type="radio" id="best" name="feeling" value="best" onChange={onChangeFeelings} />
-      <label htmlFor="best"><FontAwesomeIcon icon={faLaughSquint} size="4x" /></label>
-      <input type="radio" id="good" name="feeling" value="good" onChange={onChangeFeelings} />
-      <label htmlFor="good"><FontAwesomeIcon icon={faSmile} size="4x" /></label>
-      <input type="radio" id="soso" name="feeling" value="soso" onChange={onChangeFeelings} />
-      <label htmlFor="soso"><FontAwesomeIcon icon={faMeh} size="4x" /></label>
-      <input type="radio" id="sad" name="feeling" value="sad" onChange={onChangeFeelings} />
-      <label htmlFor="sad"><FontAwesomeIcon icon={faSadCry} size="4x" /></label>
-      <input type="radio" id="angry" name="feeling" value="angry" onChange={onChangeFeelings} />
-      <label htmlFor="angry"><FontAwesomeIcon icon={faAngry} size="4x" /></label>
+      <FeelingsEmoticonWrap>
+        <EmoticonInput type="radio" id="best" name="feeling" value="best" onChange={onChangeFeelings} />
+        <FeelingsEmoticon color="#fb8c00" htmlFor="best"><FontAwesomeIcon icon={faLaughSquint} size="4x" /></FeelingsEmoticon>
+        <EmoticonInput type="radio" id="good" name="feeling" value="good" onChange={onChangeFeelings} />
+        <FeelingsEmoticon color="#fff176" htmlFor="good"><FontAwesomeIcon icon={faSmile} size="4x" /></FeelingsEmoticon>
+        <EmoticonInput type="radio" id="soso" name="feeling" value="soso" onChange={onChangeFeelings} />
+        <FeelingsEmoticon color="#9ccc65" htmlFor="soso"><FontAwesomeIcon icon={faMeh} size="4x" /></FeelingsEmoticon>
+        <EmoticonInput type="radio" id="sad" name="feeling" value="sad" onChange={onChangeFeelings} />
+        <FeelingsEmoticon color="#303f9f" htmlFor="sad"><FontAwesomeIcon icon={faSadCry} size="4x" /></FeelingsEmoticon>
+        <EmoticonInput type="radio" id="angry" name="feeling" value="angry" onChange={onChangeFeelings} />
+        <FeelingsEmoticon color="#e53935" htmlFor="angry"><FontAwesomeIcon icon={faAngry} size="4x" /></FeelingsEmoticon>
+      </FeelingsEmoticonWrap>
       <Input.TextArea
         rows={10}
         value={text}
