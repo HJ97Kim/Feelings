@@ -41,13 +41,13 @@ const PostForm = ({ postDate, setVisible }) => {
     }
   }, [addPostDone]);
 
-  const onChangeText = useCallback((e) => {
+  const onChangeText = useCallback((e) => { // 글먼저 작성후 감정선택시 감정 적용안되는 에러 있음
     setText(e.target.value);
-  }, []);
+  }, [text]);
 
   const onChangeFeelings = useCallback((e) => {
     setFeelings(e.target.value);
-  }, []);
+  }, [feelings]);
 
   const onSubmit = useCallback(() => {
     dispatch({
@@ -55,7 +55,7 @@ const PostForm = ({ postDate, setVisible }) => {
       data: { content: text, date: postDate, feeling: feelings },
     });
     setVisible(false);
-  }, [text, postDate]);
+  }, [text, postDate, feelings]);
 
   const handleCancel = () => {
     setVisible(false);

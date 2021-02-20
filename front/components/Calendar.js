@@ -25,6 +25,7 @@ const CalendarControl = styled.div`
 const CalendarToday = styled.td`
   color: #fff;
   background-color: gray;
+  background-color: ${(props) => props.feelingColor};
   cursor: pointer;
   width: 120px;
   height: 107px;
@@ -39,6 +40,7 @@ const CalendarDays = styled.td`
   height: 107px;
   padding: 7px;
   vertical-align: top;
+  background-color: ${(props) => props.feelingColor};
 `;
 
 const CalendarOtherMonths = styled.td`
@@ -47,6 +49,7 @@ const CalendarOtherMonths = styled.td`
   width: 120px;
   height: 107px;
   padding: 7px;
+  background-color: ${(props) => props.feelingColor};
   opacity: 0.6;
   vertical-align: top;
 `;
@@ -65,6 +68,29 @@ const Calendar = () => {
   const [visible, setVisible] = useState(false);
   const [getMoment, setMoment] = useState(moment());
 
+  const feelingColorParser = (days) => {
+    const userPost = mainPosts.find((post) => post.date === days.format('YYYY-MM-DD') && id === post.User.id);
+    let color = '';
+    if (mainPosts.find((post) => post.date === days.format('YYYY-MM-DD') && id === post.User.id)) {
+      if (userPost.feeling === 'best') {
+        color = '#fb8c00';
+      }
+      if (userPost.feeling === 'good') {
+        color = '#fff176';
+      }
+      if (userPost.feeling === 'soso') {
+        color = '#9ccc65';
+      }
+      if (userPost.feeling === 'sad') {
+        color = '#303f9f';
+      }
+      if (userPost.feeling === 'angry') {
+        color = '#e53935';
+      }
+    }
+    return color;
+  };
+
   // 달력
   const today = getMoment; // totay === moment();
   const firstWeek = today.clone().startOf('month').week();
@@ -82,19 +108,19 @@ const Calendar = () => {
                 .add(index, 'day');
               if (moment().format('YYYYMMDD') === days.format('YYYYMMDD')) {
                 return (
-                  <CalendarToday key={index} id={days.format('YYYYMMDD')} onClick={showModal}>
+                  <CalendarToday key={index} id={days.format('YYYYMMDD')} onClick={showModal} feelingColor={feelingColorParser(days)}>
                     <span>{days.format('D')}</span>
                   </CalendarToday>
                 );
               } if (days.format('MM') !== today.format('MM')) {
                 return (
-                  <CalendarOtherMonths key={index} id={days.format('YYYYMMDD')} onClick={showModal}>
+                  <CalendarOtherMonths key={index} id={days.format('YYYYMMDD')} onClick={showModal} feelingColor={feelingColorParser(days)}>
                     <span>{days.format('D')}</span>
                   </CalendarOtherMonths>
                 );
               }
               return (
-                <CalendarDays key={index} id={days.format('YYYYMMDD')} onClick={showModal}>
+                <CalendarDays key={index} id={days.format('YYYYMMDD')} onClick={showModal} feelingColor={feelingColorParser(days)}>
                   <span>{days.format('D')}</span>
                 </CalendarDays>
               );
