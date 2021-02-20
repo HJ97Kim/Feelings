@@ -16,7 +16,7 @@ const Global = createGlobalStyle`
 
 const BackgroundImg = styled.div`
   border: 0;
-  padding: 0; 
+  padding: 0;
   background-image: url('https://t1.daumcdn.net/cfile/tistory/26AEB633597644FE1E');
   min-height: 100%;
   background-position: center;
@@ -35,23 +35,21 @@ const StartLayoutRow = styled(Row)`
   height: 100%;
 `;
 
-const StartLayout = ({ children }) => {
-  return (
-    <BackgroundImg>
-      <Global />
-      <StartLayoutRow justify="space-around" align="middle">
-        <Col xs={24} md={12}>
-          <h2>
-            <Link href="/"><a>Feelings</a></Link>
-          </h2>
-          <Box>
-            {children}
-          </Box>
-        </Col>
-      </StartLayoutRow>
-    </BackgroundImg>
-  );
-};
+const StartLayout = ({ children }) => (
+  <BackgroundImg>
+    <Global />
+    <StartLayoutRow justify="space-around" align="middle">
+      <Col xs={24} md={12}>
+        <h2>
+          <Link href="/"><a>Feelings</a></Link>
+        </h2>
+        <Box>
+          {children}
+        </Box>
+      </Col>
+    </StartLayoutRow>
+  </BackgroundImg>
+);
 
 StartLayout.propTypes = {
   children: PropTypes.node.isRequired,

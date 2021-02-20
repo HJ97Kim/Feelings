@@ -1,11 +1,16 @@
 import React, { useCallback, useRef, useState } from 'react';
 import Head from 'next/head';
+import styled from 'styled-components';
 import { Row, Col, Form, Input, Button, Avatar } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
 
 import StartLayout from '../components/StartLayout';
 import useInput from '../hooks/useInput';
+
+const ErrorMessage = styled.span`
+  color: red;
+`;
 
 const FirstSetting = () => {
   const { profileImagePaths } = useSelector((state) => state.user);

@@ -17,16 +17,16 @@ const SignupBtn = styled(Button)`
 const Login = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const { logInDone, logInLoading } = useSelector((state) => state.user);
+  const { me, logInLoading } = useSelector((state) => state.user);
   const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');
 
   // 로그인 성공 -> 메인페이지 이동
   useEffect(() => {
-    if (logInDone) {
+    if (me) {
       router.push('/main');
     }
-  }, [logInDone]);
+  }, [me]);
 
   const onSubmitForm = useCallback(() => { // 로그인
     console.log(email, password);

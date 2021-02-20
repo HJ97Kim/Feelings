@@ -41,7 +41,7 @@ const PostForm = ({ postDate, setVisible }) => {
     }
   }, [addPostDone]);
 
-  const onChangeText = useCallback((e) => { // 글먼저 작성후 감정선택시 감정 적용안되는 에러 있음
+  const onChangeText = useCallback((e) => {
     setText(e.target.value);
   }, [text]);
 
