@@ -26,7 +26,7 @@ const Signup = () => {
 
   useEffect(() => {
     if (signUpDone) {
-      router.push('/firstSetting');
+      router.push('/firstSetting'); // replace는 뒤로가기시 전페이지 안가짐
     }
   }, [signUpDone]);
 

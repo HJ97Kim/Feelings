@@ -17,7 +17,7 @@ const SignupBtn = styled(Button)`
 const Login = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const { me, logInLoading } = useSelector((state) => state.user);
+  const { me, logInLoading, logInError } = useSelector((state) => state.user);
   const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');
 
@@ -27,6 +27,12 @@ const Login = () => {
       router.push('/main');
     }
   }, [me]);
+
+  useEffect(() => {
+    if (logInError) {
+      alert(logInError);
+    }
+  }, [logInError]);
 
   const onSubmitForm = useCallback(() => { // 로그인
     console.log(email, password);
