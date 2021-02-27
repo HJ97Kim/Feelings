@@ -1,10 +1,11 @@
 /* eslint-disable consistent-return */
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { Row, Col, Form, Input, Button } from 'antd';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
+import { useRouter } from 'next/router';
 
 import StartLayout from '../components/StartLayout';
 import useInput from '../hooks/useInput';
@@ -20,7 +21,20 @@ const CancelBtn = styled(Button)`
 
 const Signup = () => {
   const dispatch = useDispatch();
-  const { signUpLoading } = useSelector((state) => state.user);
+  const router = useRouter();
+  const { signUpLoading, signUpDone, signUpError } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    if (signUpDone) {
+      router.push('/firstSetting');
+    }
+  }, [signUpDone]);
+
+  useEffect(() => {
+    if (signUpError) {
+      alert(signUpError);
+    }
+  }, [signUpError]);
 
   const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');
