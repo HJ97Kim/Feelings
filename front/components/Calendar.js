@@ -2,8 +2,8 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable no-plusplus */
 /* eslint-disable no-loop-func */
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
 import styled from 'styled-components';
 import { Row, Col, Modal } from 'antd';
@@ -11,6 +11,7 @@ import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 
 import PostForm from './PostForm';
 import Diary from './Diary';
+import { LOAD_POSTS_REQUEST } from '../reducers/post';
 
 const CalendarControl = styled.div`
   display: flex;
@@ -62,16 +63,23 @@ const DayOfTheWeek = styled.td`
 `;
 
 const Calendar = () => {
+  const dispatch = useDispatch();
   const { mainPosts } = useSelector((state) => state.post);
   const id = useSelector((state) => state.user.me?.id); // 로그인 한 사람 id
   const [postDate, setPostDate] = useState('');
   const [visible, setVisible] = useState(false);
   const [getMoment, setMoment] = useState(moment());
 
+  useEffect(() => {
+    dispatch({
+      type: LOAD_POSTS_REQUEST,
+    });
+  }, []);
+
   const feelingColorParser = (days) => {
-    const userPost = mainPosts.find((post) => post.date === days.format('YYYY-MM-DD') && id === post.User.id);
+    const userPost = mainPosts.find((post) => post.date === days.format('YYYY-MM-DD') && id === post.UserId);
     let color = '';
-    if (mainPosts.find((post) => post.date === days.format('YYYY-MM-DD') && id === post.User.id)) {
+    if (mainPosts.find((post) => post.date === days.format('YYYY-MM-DD') && id === post.UserId)) {
       if (userPost.feeling === 'best') {
         color = '#fb8c00';
       }
@@ -176,13 +184,13 @@ const Calendar = () => {
                 onCancel={handleCancel}
                 footer={null}
               >
-                {mainPosts.find((post) => post.date === postDate && id === post.User.id)
+                {mainPosts.find((post) => post.date === postDate && id === post.UserId)
                   ? (
                     <Diary
                       postDate={postDate}
                       setVisible={setVisible}
                       post={
-                        mainPosts.find((post) => post.date === postDate && id === post.User.id)
+                        mainPosts.find((post) => post.date === postDate && id === post.UserId)
                       }
                     />
                   ) : (

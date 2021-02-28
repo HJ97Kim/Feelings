@@ -2,9 +2,10 @@ import React, { useEffect } from 'react';
 import Head from 'next/head';
 import styled, { createGlobalStyle } from 'styled-components';
 import { Row, Col } from 'antd';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 
+import { LOAD_MY_INFO_REQUEST } from '../reducers/user';
 import Calendar from '../components/Calendar';
 import MainHeader from '../components/MainHeader';
 
@@ -28,9 +29,15 @@ const BackgroundImg = styled.div`
 `;
 
 const Main = () => {
+  const dispatch = useDispatch();
   const router = useRouter();
   const { me } = useSelector((state) => state.user);
 
+  useEffect(() => {
+    dispatch({
+      type: LOAD_MY_INFO_REQUEST,
+    });
+  }, []);
   // 로그인 안한 사용자 -> 로그인 페이지 이동(/)
   useEffect(() => {
     if (!me) {

@@ -8,7 +8,7 @@ import { useRouter } from 'next/router';
 
 import StartLayout from '../components/StartLayout';
 import useInput from '../hooks/useInput';
-import { loginRequestAction } from '../reducers/user';
+import { loginRequestAction, LOAD_MY_INFO_REQUEST } from '../reducers/user';
 
 const SignupBtn = styled(Button)`
   margin-left: 5px;
@@ -20,6 +20,12 @@ const Login = () => {
   const { me, logInLoading, logInError } = useSelector((state) => state.user);
   const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');
+
+  useEffect(() => {
+    dispatch({
+      type: LOAD_MY_INFO_REQUEST,
+    });
+  }, []);
 
   // 로그인 성공 -> 메인페이지 이동
   useEffect(() => {

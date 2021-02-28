@@ -4,6 +4,7 @@ const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const dotenv = require('dotenv');
+const morgan = require('morgan');
 
 const postRouter = require('./routes/post');
 const userRouter = require('./routes/user');
@@ -20,8 +21,10 @@ db.sequelize.sync()
 
 passportConfig();
 
+app.use(morgan('dev'));
 app.use(cors({
-  origin: '*',
+  origin: 'http://localhost:3060', // 주소
+  credentials: true, // 쿠키 전달
 }));
 // front에서 보낸 req.body를 data에 넣어주는 역할
 app.use(express.json());

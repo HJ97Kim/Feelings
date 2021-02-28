@@ -1,16 +1,10 @@
 import produce from 'immer';
 
 export const initialState = {
-  mainPosts: [{ // 더미데이터
-    id: 1,
-    date: '2021-02-12', // 일기 작성날짜 (현재 날짜 아님 선택 날짜)
-    feeling: 'soso', // 기분상태
-    User: {
-      id: 1,
-      nickname: '김형진',
-    },
-    content: '게시글 더미데이터 입니다.',
-  }],
+  mainPosts: [],
+  loadPostsLoading: false,
+  loadPostsDone: false,
+  loadPostsError: null,
   addPostLoading: false, // 게시글 작성 시도중
   addPostDone: false, // 게시글 작성 성공
   addPostError: null, // 게시글 작성 실패
@@ -18,6 +12,10 @@ export const initialState = {
   removePostDone: false, // 게시글 삭제 성공
   removePostError: null, // 게시글 삭제 실패
 };
+
+export const LOAD_POSTS_REQUEST = 'LOAD_POST_REQUEST';
+export const LOAD_POSTS_SUCCESS = 'LOAD_POST_SUCCESS';
+export const LOAD_POSTS_FAILURE = 'LOAD_POST_FAILURE';
 
 export const ADD_POST_REQUEST = 'ADD_POST_REQUEST';
 export const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS';
@@ -27,19 +25,22 @@ export const REMOVE_POST_REQUEST = 'REMOVE_POST_REQUEST';
 export const REMOVE_POST_SUCCESS = 'REMOVE_POST_SUCCESS';
 export const REMOVE_POST_FAILURE = 'REMOVE_POST_FAILURE';
 
-const dummyPost = (data) => ({
-  id: data.id,
-  date: data.date, // 확인해야함
-  feeling: data.feeling,
-  User: {
-    id: 1,
-    nickname: '김형진',
-  },
-  content: data.content,
-});
-
 const reducer = (state = initialState, action) => produce(state, (draft) => {
   switch (action.type) {
+    case LOAD_POSTS_REQUEST:
+      draft.loadPostsLoading = true;
+      draft.loadPostsDone = false;
+      draft.loadPostsError = null;
+      break;
+    case LOAD_POSTS_SUCCESS:
+      draft.loadPostsLoading = false;
+      draft.loadPostsDone = true;
+      draft.mainPosts = draft.mainPosts.concat(action.data);
+      break;
+    case LOAD_POSTS_FAILURE:
+      draft.loadPostsLoading = false;
+      draft.loadPostsError = action.error;
+      break;
     case ADD_POST_REQUEST:
       draft.addPostLoading = true;
       draft.addPostDone = false;
@@ -48,7 +49,7 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
     case ADD_POST_SUCCESS:
       draft.addPostLoading = false;
       draft.addPostDone = true;
-      draft.mainPosts.unshift(dummyPost(action.data));
+      draft.mainPosts.unshift(action.data);
       break;
     case ADD_POST_FAILURE:
       draft.addPostLoading = false;
