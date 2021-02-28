@@ -27,7 +27,7 @@ const Diary = ({ setVisible, post }) => {
       data: post.id,
     });
     setVisible(false);
-  }, []);
+  }, [post]);
 
   const feelingIcon = () => {
     if (post.feeling === 'best') {
