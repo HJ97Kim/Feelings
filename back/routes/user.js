@@ -1,11 +1,19 @@
 const express = require('express');
 const bcrypt = require('bcrypt'); // 비밀번호 암호화 라이브러리
 const passport = require('passport');
+const fs = require('fs');
 
 const { User, Post } = require('../models'); // db.User
 const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
 
 const router = express.Router();
+
+try {
+  fs.accessSync('uploads');
+} catch (error) {
+  console.log('uploads 폴더 없으므로 생성!');
+  fs.mkdirSync('uploads');
+}
 
 router.get('/', async (req, res, next) => {
   try {
@@ -81,10 +89,25 @@ router.post('/', isNotLoggedIn, async (req, res, next) => { // POST /user/
   }
 });
 
+
 router.post('/logout', isLoggedIn, (req, res) => {
   req.logout();
   req.session.destroy();
   res.send('ok');
+});
+
+router.patch('/nickname', isLoggedIn, async (req, res, next) => {
+  try {
+    await User.update({
+      nickname: req.body.nickname,
+    }, {
+      where: { id: req.user.id },
+    });
+    res.status(200).json({ nickname: req.body.nickname });
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
 });
 
 module.exports = router;
