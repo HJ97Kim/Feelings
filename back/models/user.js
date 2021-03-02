@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     nickname: {
       type: DataTypes.STRING(30),
-      allowNull: true, // 필수 X
+      allowNull: false, // 필수
     },
     password: {
       type: DataTypes.STRING(100),

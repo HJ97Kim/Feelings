@@ -6,8 +6,29 @@ import {
   LOG_IN_REQUEST, LOG_IN_SUCCESS, LOG_IN_FAILURE,
   LOG_OUT_REQUEST, LOG_OUT_SUCCESS, LOG_OUT_FAILURE,
   SIGN_UP_REQUEST, SIGN_UP_SUCCESS, SIGN_UP_FAILURE,
+  UPLOAD_IMAGE_REQUEST, UPLOAD_IMAGE_SUCCESS, UPLOAD_IMAGE_FAILURE,
   CHANGE_NICKNAME_REQUEST, CHANGE_NICKNAME_SUCCESS, CHANGE_NICKNAME_FAILURE,
 } from '../reducers/user';
+
+function uploadImageAPI(data) {
+  return axios.post('/user/image', data);
+}
+
+function* uploadImage(action) {
+  try {
+    const result = yield call(uploadImageAPI, action.data);
+    yield put({
+      type: UPLOAD_IMAGE_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    console.log(err);
+    yield put({
+      type: UPLOAD_IMAGE_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
 
 function changeNicknameAPI(data) {
   return axios.patch('/user/nickname', { nickname: data });
@@ -109,6 +130,10 @@ function* signUp(action) {
   }
 }
 
+function* watchUploadImage() {
+  yield takeLatest(UPLOAD_IMAGE_REQUEST, uploadImage);
+}
+
 function* watchChangeNickname() {
   yield takeLatest(CHANGE_NICKNAME_REQUEST, changeNickname);
 }
@@ -135,6 +160,7 @@ export default function* userSaga() {
     fork(watchLogOut),
     fork(watchSignUp),
     fork(watchLoadMyInfo),
+    fork(watchUploadImage),
     fork(watchChangeNickname),
   ]);
 }

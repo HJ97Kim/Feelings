@@ -1,15 +1,16 @@
 /* eslint-disable consistent-return */
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useRef } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
-import { Row, Col, Form, Input, Button } from 'antd';
+import { Row, Col, Form, Input, Button, Avatar } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 
 import StartLayout from '../components/StartLayout';
 import useInput from '../hooks/useInput';
-import { SIGN_UP_REQUEST } from '../reducers/user';
+import { SIGN_UP_REQUEST, UPLOAD_IMAGE_REQUEST } from '../reducers/user';
 
 const ErrorMessage = styled.div`
   color: red;
@@ -22,11 +23,13 @@ const CancelBtn = styled(Button)`
 const Signup = () => {
   const dispatch = useDispatch();
   const router = useRouter();
+  const [nickname, onChangeNickname] = useInput('');
+  const [nicknameError, setNicknameError] = useState(false);
   const { signUpLoading, signUpDone, signUpError } = useSelector((state) => state.user);
 
   useEffect(() => {
     if (signUpDone) {
-      router.push('/firstSetting'); // replace는 뒤로가기시 전페이지 안가짐
+      router.push('/'); // replace는 뒤로가기시 전페이지 안가짐
     }
   }, [signUpDone]);
 
@@ -45,16 +48,37 @@ const Signup = () => {
     setPasswordError(e.target.value !== password);
   }, [password]);
 
+  const { profileImagePaths } = useSelector((state) => state.user);
+  const imageInput = useRef();
+  const onClickImageUpload = useCallback(() => {
+    imageInput.current.click();
+  }, [imageInput.current]);
+
+  const onChangeImage = useCallback((e) => {
+    console.log('images', e.target.files);
+    const imageFormData = new FormData();
+    [].forEach.call(e.target.files, (f) => {
+      imageFormData.append('image', f);
+    });
+    dispatch({
+      type: UPLOAD_IMAGE_REQUEST,
+      data: imageFormData,
+    });
+  }, []);
+
   const onSubmit = useCallback(() => {
     if (password !== passwordCheck) {
       return setPasswordError(true);
     }
+    if (nickname === null) {
+      return setNicknameError(true);
+    }
     console.log(email, password);
     dispatch({
       type: SIGN_UP_REQUEST,
-      data: { email, password },
+      data: { email, password, nickname, profileImagePaths },
     });
-  }, [email, password, passwordCheck]);
+  }, [email, password, passwordCheck, nickname, profileImagePaths]);
 
   return (
     <>
@@ -63,10 +87,21 @@ const Signup = () => {
         <title>회원가입 | Feelings</title>
       </Head>
       <StartLayout>
-        <Form onFinish={onSubmit}>
+        <Form encType="multipart/form-data" onFinish={onSubmit}>
           <Row>
             <Col xs={12} md={12} offset={6}>
               <h2>회원가입</h2>
+              <Form.Item>
+                {profileImagePaths !== null ? (<Avatar size={64} src={`http://localhost:3065/${profileImagePaths}`} />) : (<Avatar size={64} icon={<UserOutlined />} />)}
+                <input type="file" name="image" hidden ref={imageInput} onChange={onChangeImage} />
+                <Button onClick={onClickImageUpload}>이미지 업로드</Button>
+              </Form.Item>
+              <Form.Item>
+                <label htmlFor="user-nick">Nickname</label>
+                <br />
+                <Input name="user-nick" value={nickname} onChange={onChangeNickname} required />
+                {nicknameError && <ErrorMessage>닉네임을 입력해주세요.</ErrorMessage>}
+              </Form.Item>
               <Form.Item>
                 <label htmlFor="user-email">Email</label>
                 <br />

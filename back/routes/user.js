@@ -2,6 +2,8 @@ const express = require('express');
 const bcrypt = require('bcrypt'); // 비밀번호 암호화 라이브러리
 const passport = require('passport');
 const fs = require('fs');
+const multer = require('multer');
+const path = require('path');
 
 const { User, Post } = require('../models'); // db.User
 const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
@@ -66,6 +68,7 @@ router.post('/login', isNotLoggedIn, (req, res, next) => {
 });
 
 // await 쓰려면 async 함수로 만들어야함
+// 회원가입
 router.post('/', isNotLoggedIn, async (req, res, next) => { // POST /user/
   // nickname 과 img는 firstSetting 에서 해줄거임
   try {
@@ -81,6 +84,8 @@ router.post('/', isNotLoggedIn, async (req, res, next) => { // POST /user/
     await User.create({
       email: req.body.email,
       password: hashedPassword,
+      nickname: req.body.nickname,
+      img: req.body.profileImagePaths,
     });
     res.status(201).send('ok'); // 200 성공
   } catch (error) {
@@ -89,13 +94,33 @@ router.post('/', isNotLoggedIn, async (req, res, next) => { // POST /user/
   }
 });
 
-
+// 로그아웃
 router.post('/logout', isLoggedIn, (req, res) => {
   req.logout();
   req.session.destroy();
   res.send('ok');
 });
 
+// 퍼알 업로드
+const upload = multer({
+  storage: multer.diskStorage({
+    destination(req, file, done) {
+      done(null, 'uploads');
+    },
+    filename(req, file, done) { // 김형진.png
+      const ext = path.extname(file.originalname); // 확장자 추출(.png)
+      const basename = path.basename(file.originalname, ext); // 김형진
+      done(null, basename + new Date().getTime() + ext); // 김형진1293192.png
+    },
+  }),
+  limits: { fileSize: 20 * 1024 * 1024 }, // 20MB
+});
+router.post('/image', upload.single('image'), async (req, res, next) => { // POST /post/image 이미지 업로드 후 실행
+  console.log(req.file);
+  res.json(req.file.filename);
+});
+
+// 닉네임 변경
 router.patch('/nickname', isLoggedIn, async (req, res, next) => {
   try {
     await User.update({

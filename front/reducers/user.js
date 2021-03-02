@@ -13,13 +13,16 @@ export const initialState = {
   signUpLoading: false, // 회원가입 시도중
   signUpDone: false, // 회원가입 성공
   signUpError: null, // 회원가입 실패
+  uploadImageLoading: false, // 프로필 사진 업로드 시도중
+  uploadImageDone: false, // 프로필 사진 업로드 성공
+  uploadImageError: null, // 프로필 사진 업로드 실패
   changeNicknameLoading: false, // 닉네임 변경 시도중
   changeNicknameDone: false, // 닉네임 변경 성공
   changeNicknameError: null, // 닉네임 변경 실패
   me: null,
   signUpData: {},
   loginData: {},
-  profileImagePaths: '', // 프로필 이미지 저장경로
+  profileImagePaths: [], // 프로필 이미지 저장경로
 };
 
 export const LOAD_MY_INFO_REQUEST = 'LOAD_MY_INFO_REQUEST';
@@ -37,6 +40,10 @@ export const LOG_OUT_FAILURE = 'LOG_OUT_FAILURE';
 export const SIGN_UP_REQUEST = 'SIGN_UP_REQUEST';
 export const SIGN_UP_SUCCESS = 'SIGN_UP_SUCCESS';
 export const SIGN_UP_FAILURE = 'SIGN_UP_FAILURE';
+
+export const UPLOAD_IMAGE_REQUEST = 'UPLOAD_IMAGE_REQUEST';
+export const UPLOAD_IMAGE_SUCCESS = 'UPLOAD_IMAGE_SUCCESS';
+export const UPLOAD_IMAGE_FAILURE = 'UPLOAD_IMAGE_FAILURE';
 
 export const CHANGE_NICKNAME_REQUEST = 'CHANGE_NICKNAME_REQUEST';
 export const CHANGE_NICKNAME_SUCCESS = 'CHANGE_NICKNAME_SUCCESS';
@@ -110,6 +117,20 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
     case SIGN_UP_FAILURE:
       draft.signUpLoading = false;
       draft.signUpError = action.error;
+      break;
+    case UPLOAD_IMAGE_REQUEST:
+      draft.uploadImageLoading = true;
+      draft.uploadImageDone = false;
+      draft.uploadImageError = null;
+      break;
+    case UPLOAD_IMAGE_SUCCESS:
+      draft.profileImagePaths = action.data;
+      draft.uploadImageLoading = false;
+      draft.uploadImageDone = true;
+      break;
+    case UPLOAD_IMAGE_FAILURE:
+      draft.uploadImageLoading = false;
+      draft.uploadImageError = action.error;
       break;
     case CHANGE_NICKNAME_REQUEST:
       draft.changeNicknameLoading = true;
