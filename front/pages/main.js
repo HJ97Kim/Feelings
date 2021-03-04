@@ -53,7 +53,7 @@ const Main = () => {
       </Head>
       <BackgroundImg>
         <Global />
-        <MainHeader />
+        <MainHeader me={me} />
         <Row justify="space-around" align="middle">
           <Col xs={24} md={16}>
             <Calendar />

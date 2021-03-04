@@ -128,7 +128,22 @@ router.patch('/nickname', isLoggedIn, async (req, res, next) => {
     }, {
       where: { id: req.user.id },
     });
-    res.status(200).json({ nickname: req.body.nickname });
+    res.status(201).json({ nickname: req.body.nickname });
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
+// 프로필 이미지 변경
+router.patch('/profileimg', isLoggedIn, async (req, res, next) => {
+  try {
+    await User.update({
+      img: req.body.profileImagePaths,
+    }, {
+      where: { id: req.user.id },
+    });
+    res.status(201).json({ img: req.body.profileImagePaths });
   } catch (error) {
     console.error(error);
     next(error);

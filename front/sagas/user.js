@@ -8,6 +8,7 @@ import {
   SIGN_UP_REQUEST, SIGN_UP_SUCCESS, SIGN_UP_FAILURE,
   UPLOAD_IMAGE_REQUEST, UPLOAD_IMAGE_SUCCESS, UPLOAD_IMAGE_FAILURE,
   CHANGE_NICKNAME_REQUEST, CHANGE_NICKNAME_SUCCESS, CHANGE_NICKNAME_FAILURE,
+  CHANGE_PROFILE_IMG_REQUEST, CHANGE_PROFILE_IMG_SUCCESS, CHANGE_PROFILE_IMG_FAILURE,
 } from '../reducers/user';
 
 function uploadImageAPI(data) {
@@ -45,6 +46,26 @@ function* changeNickname(action) {
     console.log(err);
     yield put({
       type: CHANGE_NICKNAME_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+
+function changeProfileImgAPI(data) {
+  return axios.patch('/user/profileimg', { profileImagePaths: data });
+}
+
+function* changeProfileImg(action) {
+  try {
+    const result = yield call(changeProfileImgAPI, action.data);
+    yield put({
+      type: CHANGE_PROFILE_IMG_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    console.log(err);
+    yield put({
+      type: CHANGE_PROFILE_IMG_FAILURE,
       error: err.response.data,
     });
   }
@@ -138,6 +159,10 @@ function* watchChangeNickname() {
   yield takeLatest(CHANGE_NICKNAME_REQUEST, changeNickname);
 }
 
+function* watchChangeProfileImg() {
+  yield takeLatest(CHANGE_PROFILE_IMG_REQUEST, changeProfileImg);
+}
+
 function* watchLoadMyInfo() {
   yield takeLatest(LOAD_MY_INFO_REQUEST, loadMyInfo);
 }
@@ -162,5 +187,6 @@ export default function* userSaga() {
     fork(watchLoadMyInfo),
     fork(watchUploadImage),
     fork(watchChangeNickname),
+    fork(watchChangeProfileImg),
   ]);
 }

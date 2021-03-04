@@ -10,7 +10,7 @@ import { useRouter } from 'next/router';
 
 import StartLayout from '../components/StartLayout';
 import useInput from '../hooks/useInput';
-import { SIGN_UP_REQUEST, UPLOAD_IMAGE_REQUEST } from '../reducers/user';
+import { RESET_UPLOAD_IMAGE, SIGN_UP_REQUEST, UPLOAD_IMAGE_REQUEST } from '../reducers/user';
 
 const ErrorMessage = styled.div`
   color: red;
@@ -31,6 +31,9 @@ const Signup = () => {
     if (signUpDone) {
       router.push('/'); // replace는 뒤로가기시 전페이지 안가짐
     }
+    dispatch({
+      type: RESET_UPLOAD_IMAGE,
+    });
   }, [signUpDone]);
 
   useEffect(() => {
@@ -43,6 +46,8 @@ const Signup = () => {
   const [password, onChangePassword] = useInput('');
   const [passwordCheck, setPasswordCheck] = useState('');
   const [passwordError, setPasswordError] = useState(false);
+  const [profileImageError, setProfileImageError] = useState(false);
+
   const onChangePasswordCheck = useCallback((e) => {
     setPasswordCheck(e.target.value);
     setPasswordError(e.target.value !== password);
@@ -73,6 +78,10 @@ const Signup = () => {
     if (nickname === null) {
       return setNicknameError(true);
     }
+    if (profileImagePaths.length === 0) {
+      alert('프로필 이미지를 선택해주세요.');
+      return setProfileImageError(true);
+    }
     console.log(email, password);
     dispatch({
       type: SIGN_UP_REQUEST,
@@ -92,9 +101,10 @@ const Signup = () => {
             <Col xs={12} md={12} offset={6}>
               <h2>회원가입</h2>
               <Form.Item>
-                {profileImagePaths !== null ? (<Avatar size={64} src={`http://localhost:3065/${profileImagePaths}`} />) : (<Avatar size={64} icon={<UserOutlined />} />)}
+                {profileImagePaths.length > 0 ? (<Avatar size={64} src={`http://localhost:3065/${profileImagePaths}`} />) : (<Avatar size={64} icon={<UserOutlined />} />)}
                 <input type="file" name="image" hidden ref={imageInput} onChange={onChangeImage} />
                 <Button onClick={onClickImageUpload}>이미지 업로드</Button>
+                {profileImageError && <ErrorMessage>프로필 이미지를 선택해주세요.</ErrorMessage>}
               </Form.Item>
               <Form.Item>
                 <label htmlFor="user-nick">Nickname</label>

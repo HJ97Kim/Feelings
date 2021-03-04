@@ -19,6 +19,9 @@ export const initialState = {
   changeNicknameLoading: false, // 닉네임 변경 시도중
   changeNicknameDone: false, // 닉네임 변경 성공
   changeNicknameError: null, // 닉네임 변경 실패
+  changeProfileImgLoading: false, // 프로필 이미지 변경 시도중
+  changeProfileImgDone: false, // 프로필 이미지 변경 성공
+  changeProfileImgError: null, // 프로필 이미지 변경 실패
   me: null,
   signUpData: {},
   loginData: {},
@@ -49,8 +52,13 @@ export const CHANGE_NICKNAME_REQUEST = 'CHANGE_NICKNAME_REQUEST';
 export const CHANGE_NICKNAME_SUCCESS = 'CHANGE_NICKNAME_SUCCESS';
 export const CHANGE_NICKNAME_FAILURE = 'CHANGE_NICKNAME_FAILURE';
 
+export const CHANGE_PROFILE_IMG_REQUEST = 'CHANGE_PROFILE_IMG_REQUEST';
+export const CHANGE_PROFILE_IMG_SUCCESS = 'CHANGE_PROFILE_IMG_SUCCESS';
+export const CHANGE_PROFILE_IMG_FAILURE = 'CHANGE_PROFILE_IMG_FAILURE';
+
 export const ADD_POST_TO_ME = 'ADD_POST_TO_ME';
 export const REMOVE_POST_OF_ME = 'REMOVE_POST_OF_ME';
+export const RESET_UPLOAD_IMAGE = 'RESET_UPLOAD_IMAGE';
 
 export const loginRequestAction = (data) => ({
   type: LOG_IN_REQUEST,
@@ -67,6 +75,7 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
       draft.loadMyInfoLoading = true;
       draft.loadMyInfoError = null;
       draft.loadMyInfoDone = false;
+      draft.signUpDone = false;
       break;
     case LOAD_MY_INFO_SUCCESS:
       draft.loadMyInfoLoading = false;
@@ -100,6 +109,7 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
       draft.logOutLoading = false;
       draft.logOutDone = true;
       draft.me = null;
+      draft.profileImagePaths = [];
       break;
     case LOG_OUT_FAILURE:
       draft.logOutLoading = false;
@@ -146,11 +156,28 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
       draft.changeNicknameLoading = false;
       draft.changeNicknameError = action.error;
       break;
+    case CHANGE_PROFILE_IMG_REQUEST:
+      draft.changeProfileImgLoading = true;
+      draft.changeProfileImgError = null;
+      draft.changeProfileImgDone = false;
+      break;
+    case CHANGE_PROFILE_IMG_SUCCESS:
+      draft.me.img = action.data.img;
+      draft.changeProfileImgLoading = false;
+      draft.changeProfileImgDone = true;
+      break;
+    case CHANGE_PROFILE_IMG_FAILURE:
+      draft.changeProfileImgLoading = false;
+      draft.changeProfileImgError = action.error;
+      break;
     case ADD_POST_TO_ME:
       draft.me.Posts.unshift({ id: action.data });
       break;
     case REMOVE_POST_OF_ME:
       draft.me.Posts = draft.me.Posts.filter((v) => v.id !== action.data);
+      break;
+    case RESET_UPLOAD_IMAGE:
+      draft.profileImagePaths = [];
       break;
     default:
       break;
