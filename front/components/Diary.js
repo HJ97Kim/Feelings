@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
@@ -6,7 +6,8 @@ import { Button } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLaughSquint, faSmile, faMeh, faSadCry, faAngry } from '@fortawesome/free-solid-svg-icons';
 
-import { REMOVE_POST_REQUEST } from '../reducers/post';
+import { REMOVE_POST_REQUEST, UPDATE_POST_REQUEST } from '../reducers/post';
+import PostEditForm from './PostEditForm';
 
 const FeelingsEmoticon = styled(FontAwesomeIcon)`
   color: ${(props) => props.color};
@@ -14,11 +15,32 @@ const FeelingsEmoticon = styled(FontAwesomeIcon)`
 
 const Diary = ({ setVisible, post }) => {
   const dispatch = useDispatch();
-  const { removePostLoading } = useSelector((state) => state.post);
+  const { removePostLoading, updatePostDone } = useSelector((state) => state.post);
+  const [editMode, setEditMode] = useState(false);
 
-  const handleCancel = () => {
-    setVisible(false);
-  };
+  useEffect(() => {
+    if (updatePostDone) {
+      onCancelUpdate();
+    }
+  }, [updatePostDone]);
+
+  const onClickUpdate = useCallback(() => {
+    setEditMode(true);
+  }, []);
+
+  const onCancelUpdate = useCallback(() => {
+    setEditMode(false);
+  }, []);
+
+  const onChangePost = useCallback((editText) => () => {
+    dispatch({
+      type: UPDATE_POST_REQUEST,
+      data: {
+        PostId: post.id,
+        content: editText,
+      },
+    });
+  }, [post]);
 
   const onRemovePost = useCallback(() => {
     console.log('remove', post.id);
@@ -49,20 +71,32 @@ const Diary = ({ setVisible, post }) => {
 
   return (
     <>
-      <div style={{ textAlign: 'center' }}>
-        {feelingIcon()}
-      </div>
-      <div>
-        {post.content}
-      </div>
-      <div style={{ textAlign: 'right', marginBottom: '20px' }}>
-        <Button key="back" type="primary" onClick={handleCancel} style={{ marginRight: '5px' }}>
-          수정
-        </Button>
-        <Button key="submit" type="danger" loading={removePostLoading} onClick={onRemovePost} htmlType="submit">
-          삭제
-        </Button>
-      </div>
+      {editMode
+        ? (
+          <PostEditForm
+            postData={post.content}
+            onCancelUpdate={onCancelUpdate}
+            onChangePost={onChangePost}
+          />
+        )
+        : (
+          <>
+            <div style={{ textAlign: 'center' }}>
+              {feelingIcon()}
+            </div>
+            <div>
+              {post.content}
+            </div>
+            <div style={{ textAlign: 'right', marginBottom: '20px' }}>
+              <Button type="primary" onClick={onClickUpdate} style={{ marginRight: '5px' }}>
+                수정
+              </Button>
+              <Button key="submit" type="danger" loading={removePostLoading} onClick={onRemovePost} htmlType="submit">
+                삭제
+              </Button>
+            </div>
+          </>
+        )}
     </>
   );
 };

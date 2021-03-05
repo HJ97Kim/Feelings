@@ -35,6 +35,23 @@ router.post('/', isLoggedIn, async (req, res, next) => { // POST /post
   }
 });
 
+router.patch('/:postId', isLoggedIn, async (req, res, next) => { // PATCH /post/1
+  try {
+    await Post.update({
+      content: req.body.content,
+    }, {
+      where: {
+        id: req.params.postId,
+        UserId: req.user.id,
+      },
+    });
+    res.json({ PostId: parseInt(req.params.postId), content: req.body.content }); // params는 문자열임
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
 router.delete('/:postId', isLoggedIn, async (req, res, next) => { // DELETE /post/1
   try {
     await Post.destroy({

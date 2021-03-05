@@ -97,7 +97,6 @@ function logInAPI(data) {
 
 function* logIn(action) {
   try {
-    // call: 동기 함수호출 fork: 비동기 함수호출 back 없기때문에 일단 주석처리
     const result = yield call(logInAPI, action.data);
     yield put({ // put === dispatch
       type: LOG_IN_SUCCESS,
