@@ -30,16 +30,16 @@ const MainHeader = ({ me }) => {
 
   const showModal = () => {
     setVisible(true);
-    dispatch({
-      type: RESET_UPLOAD_IMAGE,
-    });
+    // dispatch({
+    //   type: RESET_UPLOAD_IMAGE,
+    // });
   };
 
   const handleCancel = () => {
     setVisible(false);
-    dispatch({
-      type: RESET_UPLOAD_IMAGE,
-    });
+    // dispatch({
+    //   type: RESET_UPLOAD_IMAGE,
+    // });
   };
 
   const menu = (
@@ -48,7 +48,7 @@ const MainHeader = ({ me }) => {
         <span onClick={showModal}>내 설정</span>
       </Menu.Item>
       <Modal visible={visible} title="내 설정" onCancel={handleCancel} footer={null}>
-        <ProfileEdit me={me} setVisible={setVisible} />
+        <ProfileEdit me={me} setVisible={setVisible} refresh={Math.random()} />
       </Modal>
       <Menu.Item key="1">
         <span onClick={onLogOut}>로그아웃</span>
@@ -61,7 +61,9 @@ const MainHeader = ({ me }) => {
       {me !== null ? (
         <HeaderContents>
           <Row align="middle" style={{ height: '50px' }}>
-            <Col span={12} offset={6} style={{ textAlign: 'center' }}>Feelings</Col>
+            <Col span={12} offset={6} style={{ textAlign: 'center' }}>
+              Feelings
+            </Col>
             <Col span={6} style={{ textAlign: 'center' }}>
               <span style={{ paddingRight: '10px' }}>{me.nickname}</span>
               <Dropdown overlay={menu} trigger={['click']}>
@@ -73,8 +75,7 @@ const MainHeader = ({ me }) => {
           </Row>
         </HeaderContents>
       ) : (
-        <>
-        </>
+        <></>
       )}
     </MainHeaderWrap>
   );

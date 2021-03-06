@@ -2,13 +2,27 @@ import { all, call, fork, put, takeLatest } from 'redux-saga/effects';
 import axios from 'axios';
 
 import {
-  LOAD_MY_INFO_REQUEST, LOAD_MY_INFO_SUCCESS, LOAD_MY_INFO_FAILURE,
-  LOG_IN_REQUEST, LOG_IN_SUCCESS, LOG_IN_FAILURE,
-  LOG_OUT_REQUEST, LOG_OUT_SUCCESS, LOG_OUT_FAILURE,
-  SIGN_UP_REQUEST, SIGN_UP_SUCCESS, SIGN_UP_FAILURE,
-  UPLOAD_IMAGE_REQUEST, UPLOAD_IMAGE_SUCCESS, UPLOAD_IMAGE_FAILURE,
-  CHANGE_NICKNAME_REQUEST, CHANGE_NICKNAME_SUCCESS, CHANGE_NICKNAME_FAILURE,
-  CHANGE_PROFILE_IMG_REQUEST, CHANGE_PROFILE_IMG_SUCCESS, CHANGE_PROFILE_IMG_FAILURE,
+  LOAD_MY_INFO_REQUEST,
+  LOAD_MY_INFO_SUCCESS,
+  LOAD_MY_INFO_FAILURE,
+  LOG_IN_REQUEST,
+  LOG_IN_SUCCESS,
+  LOG_IN_FAILURE,
+  LOG_OUT_REQUEST,
+  LOG_OUT_SUCCESS,
+  LOG_OUT_FAILURE,
+  SIGN_UP_REQUEST,
+  SIGN_UP_SUCCESS,
+  SIGN_UP_FAILURE,
+  UPLOAD_IMAGE_REQUEST,
+  UPLOAD_IMAGE_SUCCESS,
+  UPLOAD_IMAGE_FAILURE,
+  CHANGE_NICKNAME_REQUEST,
+  CHANGE_NICKNAME_SUCCESS,
+  CHANGE_NICKNAME_FAILURE,
+  CHANGE_PROFILE_IMG_REQUEST,
+  CHANGE_PROFILE_IMG_SUCCESS,
+  CHANGE_PROFILE_IMG_FAILURE,
 } from '../reducers/user';
 
 function uploadImageAPI(data) {
@@ -98,7 +112,8 @@ function logInAPI(data) {
 function* logIn(action) {
   try {
     const result = yield call(logInAPI, action.data);
-    yield put({ // put === dispatch
+    yield put({
+      // put === dispatch
       type: LOG_IN_SUCCESS,
       data: result.data,
     });
@@ -136,8 +151,7 @@ function signUpAPI(data) {
 
 function* signUp(action) {
   try {
-    const result = yield call(signUpAPI, action.data);
-    console.log(result);
+    yield call(signUpAPI, action.data);
     yield put({
       type: SIGN_UP_SUCCESS,
     });
@@ -179,13 +193,5 @@ function* watchSignUp() {
 }
 
 export default function* userSaga() {
-  yield all([
-    fork(watchLogIn),
-    fork(watchLogOut),
-    fork(watchSignUp),
-    fork(watchLoadMyInfo),
-    fork(watchUploadImage),
-    fork(watchChangeNickname),
-    fork(watchChangeProfileImg),
-  ]);
+  yield all([fork(watchLogIn), fork(watchLogOut), fork(watchSignUp), fork(watchLoadMyInfo), fork(watchUploadImage), fork(watchChangeNickname), fork(watchChangeProfileImg)]);
 }

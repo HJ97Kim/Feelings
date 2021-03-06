@@ -69,119 +69,120 @@ export const logoutRequestAction = () => ({
   type: LOG_OUT_REQUEST,
 });
 
-const reducer = (state = initialState, action) => produce(state, (draft) => {
-  switch (action.type) {
-    case LOAD_MY_INFO_REQUEST:
-      draft.loadMyInfoLoading = true;
-      draft.loadMyInfoError = null;
-      draft.loadMyInfoDone = false;
-      draft.signUpDone = false;
-      break;
-    case LOAD_MY_INFO_SUCCESS:
-      draft.loadMyInfoLoading = false;
-      draft.loadMyInfoDone = true;
-      draft.me = action.data;
-      break;
-    case LOAD_MY_INFO_FAILURE:
-      draft.loadMyInfoLoading = false;
-      draft.loadMyInfoError = action.error;
-      break;
-    case LOG_IN_REQUEST:
-      draft.logInLoading = true;
-      draft.logInError = null;
-      draft.logInDone = false;
-      break;
-    case LOG_IN_SUCCESS:
-      draft.logInLoading = false;
-      draft.logInDone = true;
-      draft.me = action.data;
-      break;
-    case LOG_IN_FAILURE:
-      draft.logInLoading = false;
-      draft.logInError = action.error;
-      break;
-    case LOG_OUT_REQUEST:
-      draft.logOutLoading = true;
-      draft.logOutDone = false;
-      draft.logOutError = null;
-      break;
-    case LOG_OUT_SUCCESS:
-      draft.logOutLoading = false;
-      draft.logOutDone = true;
-      draft.me = null;
-      draft.profileImagePaths = [];
-      break;
-    case LOG_OUT_FAILURE:
-      draft.logOutLoading = false;
-      draft.logOutError = action.error;
-      break;
-    case SIGN_UP_REQUEST:
-      draft.signUpLoading = true;
-      draft.signUpDone = false;
-      draft.signUpError = null;
-      break;
-    case SIGN_UP_SUCCESS:
-      draft.signUpLoading = false;
-      draft.signUpDone = true;
-      break;
-    case SIGN_UP_FAILURE:
-      draft.signUpLoading = false;
-      draft.signUpError = action.error;
-      break;
-    case UPLOAD_IMAGE_REQUEST:
-      draft.uploadImageLoading = true;
-      draft.uploadImageDone = false;
-      draft.uploadImageError = null;
-      break;
-    case UPLOAD_IMAGE_SUCCESS:
-      draft.profileImagePaths = action.data;
-      draft.uploadImageLoading = false;
-      draft.uploadImageDone = true;
-      break;
-    case UPLOAD_IMAGE_FAILURE:
-      draft.uploadImageLoading = false;
-      draft.uploadImageError = action.error;
-      break;
-    case CHANGE_NICKNAME_REQUEST:
-      draft.changeNicknameLoading = true;
-      draft.changeNicknameError = null;
-      draft.changeNicknameDone = false;
-      break;
-    case CHANGE_NICKNAME_SUCCESS:
-      draft.me.nickname = action.data.nickname;
-      draft.changeNicknameLoading = false;
-      draft.changeNicknameDone = true;
-      break;
-    case CHANGE_NICKNAME_FAILURE:
-      draft.changeNicknameLoading = false;
-      draft.changeNicknameError = action.error;
-      break;
-    case CHANGE_PROFILE_IMG_REQUEST:
-      draft.changeProfileImgLoading = true;
-      draft.changeProfileImgError = null;
-      draft.changeProfileImgDone = false;
-      break;
-    case CHANGE_PROFILE_IMG_SUCCESS:
-      draft.me.img = action.data.img;
-      draft.changeProfileImgLoading = false;
-      draft.changeProfileImgDone = true;
-      break;
-    case CHANGE_PROFILE_IMG_FAILURE:
-      draft.changeProfileImgLoading = false;
-      draft.changeProfileImgError = action.error;
-      break;
-    case ADD_POST_TO_ME:
-      draft.me.Posts.unshift({ id: action.data });
-      break;
-    case REMOVE_POST_OF_ME:
-      draft.me.Posts = draft.me.Posts.filter((v) => v.id !== action.data);
-      break;
-    case RESET_UPLOAD_IMAGE:
-      draft.profileImagePaths = [];
-      break;
-    default:
-      break;
-  }
-});
+const reducer = (state = initialState, action) =>
+  produce(state, (draft) => {
+    switch (action.type) {
+      case LOAD_MY_INFO_REQUEST:
+        draft.loadMyInfoLoading = true;
+        draft.loadMyInfoError = null;
+        draft.loadMyInfoDone = false;
+        draft.signUpDone = false;
+        break;
+      case LOAD_MY_INFO_SUCCESS:
+        draft.loadMyInfoLoading = false;
+        draft.loadMyInfoDone = true;
+        draft.me = action.data;
+        break;
+      case LOAD_MY_INFO_FAILURE:
+        draft.loadMyInfoLoading = false;
+        draft.loadMyInfoError = action.error;
+        break;
+      case LOG_IN_REQUEST:
+        draft.logInLoading = true;
+        draft.logInError = null;
+        draft.logInDone = false;
+        break;
+      case LOG_IN_SUCCESS:
+        draft.logInLoading = false;
+        draft.logInDone = true;
+        draft.me = action.data;
+        break;
+      case LOG_IN_FAILURE:
+        draft.logInLoading = false;
+        draft.logInError = action.error;
+        break;
+      case LOG_OUT_REQUEST:
+        draft.logOutLoading = true;
+        draft.logOutDone = false;
+        draft.logOutError = null;
+        break;
+      case LOG_OUT_SUCCESS:
+        draft.logOutLoading = false;
+        draft.logOutDone = true;
+        draft.me = null;
+        draft.profileImagePaths = [];
+        break;
+      case LOG_OUT_FAILURE:
+        draft.logOutLoading = false;
+        draft.logOutError = action.error;
+        break;
+      case SIGN_UP_REQUEST:
+        draft.signUpLoading = true;
+        draft.signUpDone = false;
+        draft.signUpError = null;
+        break;
+      case SIGN_UP_SUCCESS:
+        draft.signUpLoading = false;
+        draft.signUpDone = true;
+        break;
+      case SIGN_UP_FAILURE:
+        draft.signUpLoading = false;
+        draft.signUpError = action.error;
+        break;
+      case UPLOAD_IMAGE_REQUEST:
+        draft.uploadImageLoading = true;
+        draft.uploadImageDone = false;
+        draft.uploadImageError = null;
+        break;
+      case UPLOAD_IMAGE_SUCCESS:
+        draft.profileImagePaths = action.data;
+        draft.uploadImageLoading = false;
+        draft.uploadImageDone = true;
+        break;
+      case UPLOAD_IMAGE_FAILURE:
+        draft.uploadImageLoading = false;
+        draft.uploadImageError = action.error;
+        break;
+      case CHANGE_NICKNAME_REQUEST:
+        draft.changeNicknameLoading = true;
+        draft.changeNicknameError = null;
+        draft.changeNicknameDone = false;
+        break;
+      case CHANGE_NICKNAME_SUCCESS:
+        draft.me.nickname = action.data.nickname;
+        draft.changeNicknameLoading = false;
+        draft.changeNicknameDone = true;
+        break;
+      case CHANGE_NICKNAME_FAILURE:
+        draft.changeNicknameLoading = false;
+        draft.changeNicknameError = action.error;
+        break;
+      case CHANGE_PROFILE_IMG_REQUEST:
+        draft.changeProfileImgLoading = true;
+        draft.changeProfileImgError = null;
+        draft.changeProfileImgDone = false;
+        break;
+      case CHANGE_PROFILE_IMG_SUCCESS:
+        draft.me.img = action.data.img;
+        draft.changeProfileImgLoading = false;
+        draft.changeProfileImgDone = true;
+        break;
+      case CHANGE_PROFILE_IMG_FAILURE:
+        draft.changeProfileImgLoading = false;
+        draft.changeProfileImgError = action.error;
+        break;
+      case ADD_POST_TO_ME:
+        draft.me.Posts.unshift({ id: action.data });
+        break;
+      case REMOVE_POST_OF_ME:
+        draft.me.Posts = draft.me.Posts.filter((v) => v.id !== action.data);
+        break;
+      case RESET_UPLOAD_IMAGE:
+        draft.profileImagePaths = [];
+        break;
+      default:
+        break;
+    }
+  });
 
 export default reducer;

@@ -71,6 +71,7 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
       draft.updatePostLoading = false;
       draft.updatePostDone = true;
       draft.mainPosts.find((v) => v.id === action.data.PostId).content = action.data.content;
+      draft.mainPosts.find((v) => v.id === action.data.PostId).feeling = action.data.feeling;
       break;
     case UPDATE_POST_FAILURE:
       draft.updatePostLoading = false;

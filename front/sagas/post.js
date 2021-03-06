@@ -2,10 +2,18 @@ import { all, call, fork, put, takeLatest } from 'redux-saga/effects';
 import axios from 'axios';
 
 import {
-  LOAD_POSTS_REQUEST, LOAD_POSTS_SUCCESS, LOAD_POSTS_FAILURE,
-  ADD_POST_REQUEST, ADD_POST_SUCCESS, ADD_POST_FAILURE,
-  UPDATE_POST_REQUEST, UPDATE_POST_SUCCESS, UPDATE_POST_FAILURE,
-  REMOVE_POST_REQUEST, REMOVE_POST_SUCCESS, REMOVE_POST_FAILURE,
+  LOAD_POSTS_REQUEST,
+  LOAD_POSTS_SUCCESS,
+  LOAD_POSTS_FAILURE,
+  ADD_POST_REQUEST,
+  ADD_POST_SUCCESS,
+  ADD_POST_FAILURE,
+  UPDATE_POST_REQUEST,
+  UPDATE_POST_SUCCESS,
+  UPDATE_POST_FAILURE,
+  REMOVE_POST_REQUEST,
+  REMOVE_POST_SUCCESS,
+  REMOVE_POST_FAILURE,
 } from '../reducers/post';
 import { ADD_POST_TO_ME, REMOVE_POST_OF_ME } from '../reducers/user';
 
@@ -16,7 +24,6 @@ function loadPostsAPI() {
 function* loadPosts(action) {
   try {
     const result = yield call(loadPostsAPI, action.data);
-    console.log('test', result.data);
     yield put({
       type: LOAD_POSTS_SUCCESS,
       data: result.data,
@@ -115,10 +122,5 @@ function* watchRemovePost() {
 }
 
 export default function* postSaga() {
-  yield all([
-    fork(watchAddPost),
-    fork(watchUpdatePost),
-    fork(watchRemovePost),
-    fork(watchLoadPosts),
-  ]);
+  yield all([fork(watchAddPost), fork(watchUpdatePost), fork(watchRemovePost), fork(watchLoadPosts)]);
 }

@@ -38,6 +38,7 @@ router.post('/', isLoggedIn, async (req, res, next) => { // POST /post
 router.patch('/:postId', isLoggedIn, async (req, res, next) => { // PATCH /post/1
   try {
     await Post.update({
+      feeling: req.body.feeling,
       content: req.body.content,
     }, {
       where: {
@@ -45,7 +46,7 @@ router.patch('/:postId', isLoggedIn, async (req, res, next) => { // PATCH /post/
         UserId: req.user.id,
       },
     });
-    res.json({ PostId: parseInt(req.params.postId), content: req.body.content }); // params는 문자열임
+    res.json({ PostId: parseInt(req.params.postId), content: req.body.content, feeling: req.body.feeling }); // params는 문자열임
   } catch (error) {
     console.error(error);
     next(error);

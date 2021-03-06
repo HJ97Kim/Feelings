@@ -48,10 +48,13 @@ const Signup = () => {
   const [passwordError, setPasswordError] = useState(false);
   const [profileImageError, setProfileImageError] = useState(false);
 
-  const onChangePasswordCheck = useCallback((e) => {
-    setPasswordCheck(e.target.value);
-    setPasswordError(e.target.value !== password);
-  }, [password]);
+  const onChangePasswordCheck = useCallback(
+    (e) => {
+      setPasswordCheck(e.target.value);
+      setPasswordError(e.target.value !== password);
+    },
+    [password]
+  );
 
   const { profileImagePaths } = useSelector((state) => state.user);
   const imageInput = useRef();
@@ -60,7 +63,6 @@ const Signup = () => {
   }, [imageInput.current]);
 
   const onChangeImage = useCallback((e) => {
-    console.log('images', e.target.files);
     const imageFormData = new FormData();
     [].forEach.call(e.target.files, (f) => {
       imageFormData.append('image', f);
@@ -101,7 +103,7 @@ const Signup = () => {
             <Col xs={12} md={12} offset={6}>
               <h2>회원가입</h2>
               <Form.Item>
-                {profileImagePaths.length > 0 ? (<Avatar size={64} src={`http://localhost:3065/${profileImagePaths}`} />) : (<Avatar size={64} icon={<UserOutlined />} />)}
+                {profileImagePaths.length > 0 ? <Avatar size={64} src={`http://localhost:3065/${profileImagePaths}`} /> : <Avatar size={64} icon={<UserOutlined />} />}
                 <input type="file" name="image" hidden ref={imageInput} onChange={onChangeImage} />
                 <Button onClick={onClickImageUpload}>이미지 업로드</Button>
                 {profileImageError && <ErrorMessage>프로필 이미지를 선택해주세요.</ErrorMessage>}
@@ -120,29 +122,23 @@ const Signup = () => {
               <Form.Item>
                 <label htmlFor="user-password">Password</label>
                 <br />
-                <Input
-                  name="user-password"
-                  type="password"
-                  value={password}
-                  onChange={onChangePassword}
-                  required
-                />
+                <Input name="user-password" type="password" value={password} onChange={onChangePassword} required />
               </Form.Item>
               <Form.Item>
                 <label htmlFor="user-password-check">Password Check</label>
                 <br />
-                <Input
-                  name="user-password"
-                  type="password"
-                  value={passwordCheck}
-                  onChange={onChangePasswordCheck}
-                  required
-                />
+                <Input name="user-password" type="password" value={passwordCheck} onChange={onChangePasswordCheck} required />
                 {passwordError && <ErrorMessage>비밀번호가 일치하지 않습니다.</ErrorMessage>}
               </Form.Item>
               <div>
-                <Button type="primary" htmlType="submit" loading={signUpLoading}>회원가입</Button>
-                <Link href="/"><a><CancelBtn>취소</CancelBtn></a></Link>
+                <Button type="primary" htmlType="submit" loading={signUpLoading}>
+                  회원가입
+                </Button>
+                <Link href="/">
+                  <a>
+                    <CancelBtn>취소</CancelBtn>
+                  </a>
+                </Link>
               </div>
             </Col>
           </Row>

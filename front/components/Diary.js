@@ -32,12 +32,13 @@ const Diary = ({ setVisible, post }) => {
     setEditMode(false);
   }, []);
 
-  const onChangePost = useCallback((editText) => () => {
+  const onChangePost = useCallback((editText, feelings) => () => {
     dispatch({
       type: UPDATE_POST_REQUEST,
       data: {
         PostId: post.id,
         content: editText,
+        feeling: feelings,
       },
     });
   }, [post]);
@@ -51,30 +52,30 @@ const Diary = ({ setVisible, post }) => {
     setVisible(false);
   }, [post]);
 
-  const feelingIcon = () => {
-    if (post.feeling === 'best') {
+  const feelingIcon = useCallback((feeling) => {
+    if (feeling === 'best') {
       return <FeelingsEmoticon color="#fb8c00" icon={faLaughSquint} size="4x" />;
     }
-    if (post.feeling === 'good') {
+    if (feeling === 'good') {
       return <FeelingsEmoticon color="#fff176" icon={faSmile} size="4x" />;
     }
-    if (post.feeling === 'soso') {
+    if (feeling === 'soso') {
       return <FeelingsEmoticon color="#9ccc65" icon={faMeh} size="4x" />;
     }
-    if (post.feeling === 'sad') {
+    if (feeling === 'sad') {
       return <FeelingsEmoticon color="#303f9f" icon={faSadCry} size="4x" />;
     }
-    if (post.feeling === 'angry') {
+    if (feeling === 'angry') {
       return <FeelingsEmoticon color="#e53935" icon={faAngry} size="4x" />;
     }
-  };
+  }, []);
 
   return (
     <>
       {editMode
         ? (
           <PostEditForm
-            postData={post.content}
+            post={post}
             onCancelUpdate={onCancelUpdate}
             onChangePost={onChangePost}
           />
@@ -82,7 +83,7 @@ const Diary = ({ setVisible, post }) => {
         : (
           <>
             <div style={{ textAlign: 'center' }}>
-              {feelingIcon()}
+              {feelingIcon(post.feeling)}
             </div>
             <div>
               {post.content}
