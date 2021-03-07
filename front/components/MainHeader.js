@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import ProfileEdit from './ProfileEdit';
-import { logoutRequestAction, RESET_UPLOAD_IMAGE } from '../reducers/user';
+import { logoutRequestAction } from '../reducers/user';
 
 const MainHeaderWrap = styled.header`
   width: 100%;
@@ -30,16 +30,10 @@ const MainHeader = ({ me }) => {
 
   const showModal = () => {
     setVisible(true);
-    // dispatch({
-    //   type: RESET_UPLOAD_IMAGE,
-    // });
   };
 
   const handleCancel = () => {
     setVisible(false);
-    // dispatch({
-    //   type: RESET_UPLOAD_IMAGE,
-    // });
   };
 
   const menu = (
@@ -62,7 +56,7 @@ const MainHeader = ({ me }) => {
         <HeaderContents>
           <Row align="middle" style={{ height: '50px' }}>
             <Col span={12} offset={6} style={{ textAlign: 'center' }}>
-              Feelings
+              <img src="/logo_transparent.png" alt="logo" style={{ width: '150px' }} />
             </Col>
             <Col span={6} style={{ textAlign: 'center' }}>
               <span style={{ paddingRight: '10px' }}>{me.nickname}</span>

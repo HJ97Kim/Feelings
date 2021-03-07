@@ -41,7 +41,7 @@ const StartLayout = ({ children }) => (
     <StartLayoutRow justify="space-around" align="middle">
       <Col xs={24} md={12}>
         <h2>
-          <Link href="/"><a>Feelings</a></Link>
+          <Link href="/"><a><img src="/logo_transparent.png" alt="logo" style={{ width: '150px' }} /></a></Link>
         </h2>
         <Box>
           {children}

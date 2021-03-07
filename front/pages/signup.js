@@ -10,7 +10,7 @@ import { useRouter } from 'next/router';
 
 import StartLayout from '../components/StartLayout';
 import useInput from '../hooks/useInput';
-import { RESET_UPLOAD_IMAGE, SIGN_UP_REQUEST, UPLOAD_IMAGE_REQUEST } from '../reducers/user';
+import { SIGN_UP_REQUEST, UPLOAD_IMAGE_REQUEST } from '../reducers/user';
 
 const ErrorMessage = styled.div`
   color: red;
@@ -31,9 +31,9 @@ const Signup = () => {
     if (signUpDone) {
       router.push('/'); // replace는 뒤로가기시 전페이지 안가짐
     }
-    dispatch({
-      type: RESET_UPLOAD_IMAGE,
-    });
+    // dispatch({
+    //   type: RESET_UPLOAD_IMAGE,
+    // });
   }, [signUpDone]);
 
   useEffect(() => {
@@ -48,13 +48,10 @@ const Signup = () => {
   const [passwordError, setPasswordError] = useState(false);
   const [profileImageError, setProfileImageError] = useState(false);
 
-  const onChangePasswordCheck = useCallback(
-    (e) => {
-      setPasswordCheck(e.target.value);
-      setPasswordError(e.target.value !== password);
-    },
-    [password]
-  );
+  const onChangePasswordCheck = useCallback((e) => {
+    setPasswordCheck(e.target.value);
+    setPasswordError(e.target.value !== password);
+  }, [password]);
 
   const { profileImagePaths } = useSelector((state) => state.user);
   const imageInput = useRef();

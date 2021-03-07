@@ -193,5 +193,13 @@ function* watchSignUp() {
 }
 
 export default function* userSaga() {
-  yield all([fork(watchLogIn), fork(watchLogOut), fork(watchSignUp), fork(watchLoadMyInfo), fork(watchUploadImage), fork(watchChangeNickname), fork(watchChangeProfileImg)]);
+  yield all([
+    fork(watchLogIn),
+    fork(watchLogOut),
+    fork(watchSignUp),
+    fork(watchLoadMyInfo),
+    fork(watchUploadImage),
+    fork(watchChangeNickname),
+    fork(watchChangeProfileImg),
+  ]);
 }

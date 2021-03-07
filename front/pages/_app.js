@@ -11,6 +11,7 @@ const Feelings = ({ Component }) => (
     <Head>
       <meta charSet="utf-8" />
       <title>Feelings</title>
+      <link rel="shortcut icon" href="/favicon.png" />
     </Head>
     <Component />
   </>
