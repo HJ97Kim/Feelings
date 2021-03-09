@@ -44,7 +44,6 @@ const Diary = ({ setVisible, post }) => {
   }, [post]);
 
   const onRemovePost = useCallback(() => {
-    console.log('remove', post.id);
     dispatch({
       type: REMOVE_POST_REQUEST,
       data: post.id,

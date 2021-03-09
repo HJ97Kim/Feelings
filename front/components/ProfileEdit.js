@@ -15,7 +15,6 @@ const ProfileEdit = ({ me, setVisible, refresh }) => {
 
   useEffect(() => {
     setProfileImage(me.img);
-    console.log('did mount');
   }, [refresh]);
 
   const onClickImageUpload = useCallback(() => {
@@ -46,7 +45,6 @@ const ProfileEdit = ({ me, setVisible, refresh }) => {
     setVisible(false);
   }, [nickname, profileImage]);
 
-  console.log('render', profileImage);
   return (
     <Form style={{ margin: '10px 0 20px' }} encType="multipart/form-data" onFinish={onSubmit}>
       <div>

@@ -78,7 +78,6 @@ const Signup = () => {
       alert('프로필 이미지를 선택해주세요.');
       return setProfileImageError(true);
     }
-    console.log(email, password);
     dispatch({
       type: SIGN_UP_REQUEST,
       data: { email, password, nickname, profileImagePaths },
