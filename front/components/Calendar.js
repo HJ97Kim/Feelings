@@ -25,7 +25,27 @@ const CalendarControl = styled.div`
 
 const CalendarToday = styled.td`
   color: #fff;
+  background: url(${(props) => {
+    if (props.feelingColor === '#fb8c00') {
+      return 'best.svg';
+    }
+    if (props.feelingColor === '#ffea00') {
+      return 'good.svg';
+    }
+    if (props.feelingColor === '#9ccc65') {
+      return 'soso.svg';
+    }
+    if (props.feelingColor === '#303f9f') {
+      return 'sad.svg';
+    }
+    if (props.feelingColor === '#e53935') {
+      return 'angry.svg';
+    }
+  }});
+  background-repeat: no-repeat;
+  background-position: center;
   background-color: gray;
+  background-size: 65%;
   background-color: ${(props) => props.feelingColor};
   cursor: pointer;
   width: 120px;
@@ -44,6 +64,26 @@ const CalendarDays = styled.td`
   height: 107px;
   padding: 7px;
   vertical-align: top;
+  background: url(${(props) => {
+    if (props.feelingColor === '#fb8c00') {
+      return 'best.svg';
+    }
+    if (props.feelingColor === '#ffea00') {
+      return 'good.svg';
+    }
+    if (props.feelingColor === '#9ccc65') {
+      return 'soso.svg';
+    }
+    if (props.feelingColor === '#303f9f') {
+      return 'sad.svg';
+    }
+    if (props.feelingColor === '#e53935') {
+      return 'angry.svg';
+    }
+  }});
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 65%;
   background-color: ${(props) => props.feelingColor};
   &:hover {
     opacity: 0.5;
@@ -56,6 +96,26 @@ const CalendarOtherMonths = styled.td`
   width: 120px;
   height: 107px;
   padding: 7px;
+  background: url(${(props) => {
+    if (props.feelingColor === '#fb8c00') {
+      return 'best.svg';
+    }
+    if (props.feelingColor === '#ffea00') {
+      return 'good.svg';
+    }
+    if (props.feelingColor === '#9ccc65') {
+      return 'soso.svg';
+    }
+    if (props.feelingColor === '#303f9f') {
+      return 'sad.svg';
+    }
+    if (props.feelingColor === '#e53935') {
+      return 'angry.svg';
+    }
+  }});
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 65%;
   background-color: ${(props) => props.feelingColor};
   opacity: 0.6;
   vertical-align: top;
@@ -94,7 +154,7 @@ const Calendar = () => {
         color = '#fb8c00';
       }
       if (userPost.feeling === 'good') {
-        color = '#fff176';
+        color = '#ffea00';
       }
       if (userPost.feeling === 'soso') {
         color = '#9ccc65';

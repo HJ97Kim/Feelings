@@ -59,7 +59,7 @@ const Diary = ({ setVisible, post, editMode, setEditMode }) => {
       return <FeelingsEmoticon color="#fb8c00" icon={faLaughSquint} size="4x" />;
     }
     if (feeling === 'good') {
-      return <FeelingsEmoticon color="#fff176" icon={faSmile} size="4x" />;
+      return <FeelingsEmoticon color="#ffea00" icon={faSmile} size="4x" />;
     }
     if (feeling === 'soso') {
       return <FeelingsEmoticon color="#9ccc65" icon={faMeh} size="4x" />;

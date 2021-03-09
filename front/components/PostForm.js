@@ -71,7 +71,7 @@ const PostForm = ({ postDate, setVisible }) => {
         <EmoticonInput type="radio" id="best" name="feeling" value="best" onChange={onChangeFeelings} checked={feelings === 'best'} />
         <FeelingsEmoticon color="#fb8c00" htmlFor="best"><FontAwesomeIcon icon={faLaughSquint} size="4x" /></FeelingsEmoticon>
         <EmoticonInput type="radio" id="good" name="feeling" value="good" onChange={onChangeFeelings} checked={feelings === 'good'} />
-        <FeelingsEmoticon color="#fff176" htmlFor="good"><FontAwesomeIcon icon={faSmile} size="4x" /></FeelingsEmoticon>
+        <FeelingsEmoticon color="#ffea00" htmlFor="good"><FontAwesomeIcon icon={faSmile} size="4x" /></FeelingsEmoticon>
         <EmoticonInput type="radio" id="soso" name="feeling" value="soso" onChange={onChangeFeelings} checked={feelings === 'soso'} />
         <FeelingsEmoticon color="#9ccc65" htmlFor="soso"><FontAwesomeIcon icon={faMeh} size="4x" /></FeelingsEmoticon>
         <EmoticonInput type="radio" id="sad" name="feeling" value="sad" onChange={onChangeFeelings} checked={feelings === 'sad'} />
