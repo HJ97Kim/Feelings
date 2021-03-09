@@ -53,10 +53,10 @@ const PostEditForm = ({ post, onCancelUpdate, onChangePost }) => {
         <EmoticonInput type="radio" id="angry" name="feeling" value="angry" onChange={onChangeFeelings} />
         <FeelingsEmoticon color="#e53935" htmlFor="angry"><FontAwesomeIcon icon={faAngry} size="4x" /></FeelingsEmoticon>
       </FeelingsEmoticonWrap>
-      <div>
-        <Input.TextArea value={editText} onChange={onChangeText} />
+      <div style={{ marginBottom: '20px' }}>
+        <Input.TextArea rows={10} value={editText} onChange={onChangeText} />
       </div>
-      <div style={{ textAlign: 'right', marginBottom: '20px' }}>
+      <div style={{ textAlign: 'right' }}>
         <Button type="primary" onClick={onChangePost(editText, feelings)} loading={updatePostLoading} style={{ marginRight: '5px' }}>
           수정
         </Button>

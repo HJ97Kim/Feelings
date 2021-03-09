@@ -11,7 +11,7 @@ import { logoutRequestAction } from '../reducers/user';
 
 const MainHeaderWrap = styled.header`
   width: 100%;
-  height: 50px;
+  height: 60px;
   background: #fff;
 `;
 
@@ -54,12 +54,12 @@ const MainHeader = ({ me }) => {
     <MainHeaderWrap>
       {me !== null ? (
         <HeaderContents>
-          <Row align="middle" style={{ height: '50px' }}>
+          <Row align="middle" style={{ height: '60px' }}>
             <Col span={12} offset={6} style={{ textAlign: 'center' }}>
               <img src="/logo_transparent.png" alt="logo" style={{ width: '150px' }} />
             </Col>
             <Col span={6} style={{ textAlign: 'center' }}>
-              <span style={{ paddingRight: '10px' }}>{me.nickname}</span>
+              <span style={{ paddingRight: '10px', fontWeight: 'bold' }}>{me.nickname}</span>
               <Dropdown overlay={menu} trigger={['click']}>
                 <a className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
                   <Avatar size={42} src={`http://localhost:3065/${me.img}`} />

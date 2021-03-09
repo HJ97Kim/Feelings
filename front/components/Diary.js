@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
@@ -13,10 +13,9 @@ const FeelingsEmoticon = styled(FontAwesomeIcon)`
   color: ${(props) => props.color};
 `;
 
-const Diary = ({ setVisible, post }) => {
+const Diary = ({ setVisible, post, editMode, setEditMode }) => {
   const dispatch = useDispatch();
   const { removePostLoading, updatePostDone } = useSelector((state) => state.post);
-  const [editMode, setEditMode] = useState(false);
 
   useEffect(() => {
     if (updatePostDone) {
@@ -33,6 +32,10 @@ const Diary = ({ setVisible, post }) => {
   }, []);
 
   const onChangePost = useCallback((editText, feelings) => () => {
+    if (feelings === '') {
+      alert('감정을 선택해주세요!');
+      return false;
+    }
     dispatch({
       type: UPDATE_POST_REQUEST,
       data: {
@@ -81,13 +84,13 @@ const Diary = ({ setVisible, post }) => {
         )
         : (
           <>
-            <div style={{ textAlign: 'center' }}>
+            <div style={{ textAlign: 'center', marginBottom: '20px' }}>
               {feelingIcon(post.feeling)}
             </div>
             <div>
               {post.content}
             </div>
-            <div style={{ textAlign: 'right', marginBottom: '20px' }}>
+            <div style={{ textAlign: 'right' }}>
               <Button type="primary" onClick={onClickUpdate} style={{ marginRight: '5px' }}>
                 수정
               </Button>
@@ -104,6 +107,8 @@ const Diary = ({ setVisible, post }) => {
 Diary.propTypes = {
   post: PropTypes.object.isRequired,
   setVisible: PropTypes.func.isRequired,
+  editMode: PropTypes.bool.isRequired,
+  setEditMode: PropTypes.func.isRequired,
 };
 
 export default Diary;

@@ -35,11 +35,11 @@ const PostForm = ({ postDate, setVisible }) => {
   const { addPostDone, addPostLoading } = useSelector((state) => state.post);
 
   useEffect(() => {
-    if (addPostDone) {
+    if (addPostDone || postDate) {
       setText('');
       setFeelings('');
     }
-  }, [addPostDone]);
+  }, [addPostDone, postDate]);
 
   const onChangeText = useCallback((e) => {
     setText(e.target.value);
@@ -50,6 +50,10 @@ const PostForm = ({ postDate, setVisible }) => {
   }, [feelings]);
 
   const onSubmit = useCallback(() => {
+    if (feelings === '') {
+      alert('감정을 선택해주세요!');
+      return false;
+    }
     dispatch({
       type: ADD_POST_REQUEST,
       data: { content: text, date: postDate, feeling: feelings },
@@ -64,15 +68,15 @@ const PostForm = ({ postDate, setVisible }) => {
   return (
     <Form style={{ margin: '10px 0 20px' }} encType="multipart/form-data" onFinish={onSubmit}>
       <FeelingsEmoticonWrap>
-        <EmoticonInput type="radio" id="best" name="feeling" value="best" onChange={onChangeFeelings} />
+        <EmoticonInput type="radio" id="best" name="feeling" value="best" onChange={onChangeFeelings} checked={feelings === 'best'} />
         <FeelingsEmoticon color="#fb8c00" htmlFor="best"><FontAwesomeIcon icon={faLaughSquint} size="4x" /></FeelingsEmoticon>
-        <EmoticonInput type="radio" id="good" name="feeling" value="good" onChange={onChangeFeelings} />
+        <EmoticonInput type="radio" id="good" name="feeling" value="good" onChange={onChangeFeelings} checked={feelings === 'good'} />
         <FeelingsEmoticon color="#fff176" htmlFor="good"><FontAwesomeIcon icon={faSmile} size="4x" /></FeelingsEmoticon>
-        <EmoticonInput type="radio" id="soso" name="feeling" value="soso" onChange={onChangeFeelings} />
+        <EmoticonInput type="radio" id="soso" name="feeling" value="soso" onChange={onChangeFeelings} checked={feelings === 'soso'} />
         <FeelingsEmoticon color="#9ccc65" htmlFor="soso"><FontAwesomeIcon icon={faMeh} size="4x" /></FeelingsEmoticon>
-        <EmoticonInput type="radio" id="sad" name="feeling" value="sad" onChange={onChangeFeelings} />
+        <EmoticonInput type="radio" id="sad" name="feeling" value="sad" onChange={onChangeFeelings} checked={feelings === 'sad'} />
         <FeelingsEmoticon color="#303f9f" htmlFor="sad"><FontAwesomeIcon icon={faSadCry} size="4x" /></FeelingsEmoticon>
-        <EmoticonInput type="radio" id="angry" name="feeling" value="angry" onChange={onChangeFeelings} />
+        <EmoticonInput type="radio" id="angry" name="feeling" value="angry" onChange={onChangeFeelings} checked={feelings === 'angry'} />
         <FeelingsEmoticon color="#e53935" htmlFor="angry"><FontAwesomeIcon icon={faAngry} size="4x" /></FeelingsEmoticon>
       </FeelingsEmoticonWrap>
       <Input.TextArea

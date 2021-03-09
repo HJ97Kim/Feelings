@@ -98,7 +98,7 @@ const Signup = () => {
               <Form.Item>
                 {profileImagePaths.length > 0 ? <Avatar size={64} src={`http://localhost:3065/${profileImagePaths}`} /> : <Avatar size={64} icon={<UserOutlined />} />}
                 <input type="file" name="image" hidden ref={imageInput} onChange={onChangeImage} />
-                <Button onClick={onClickImageUpload}>이미지 업로드</Button>
+                <Button onClick={onClickImageUpload} style={{ marginLeft: '5px', verticalAlign: 'bottom' }}>이미지 업로드</Button>
                 {profileImageError && <ErrorMessage>프로필 이미지를 선택해주세요.</ErrorMessage>}
               </Form.Item>
               <Form.Item>

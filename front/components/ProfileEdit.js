@@ -50,7 +50,7 @@ const ProfileEdit = ({ me, setVisible, refresh }) => {
       <div>
         {profileImage.length !== 0 ? <Avatar size={64} src={`http://localhost:3065/${profileImage}`} /> : <Avatar size={64} src={`http://localhost:3065/${me.img}`} />}
         <input type="file" name="image" hidden ref={imageInput} onChange={onChangeImage} />
-        <Button onClick={onClickImageUpload}>이미지 업로드</Button>
+        <Button onClick={onClickImageUpload} style={{ marginLeft: '5px', verticalAlign: 'bottom' }}>이미지 업로드</Button>
       </div>
       <div style={{ marginTop: '20px' }}>
         <Input addonBefore="닉네임" value={nickname} onChange={onChangeNickname} required />

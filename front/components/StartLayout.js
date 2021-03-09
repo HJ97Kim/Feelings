@@ -17,7 +17,7 @@ const Global = createGlobalStyle`
 const BackgroundImg = styled.div`
   border: 0;
   padding: 0;
-  background-image: url('https://t1.daumcdn.net/cfile/tistory/26AEB633597644FE1E');
+  background-image: url('background.jpeg');
   min-height: 100%;
   background-position: center;
   background-size: cover;

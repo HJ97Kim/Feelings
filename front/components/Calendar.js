@@ -2,7 +2,7 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable no-plusplus */
 /* eslint-disable no-loop-func */
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
 import styled from 'styled-components';
@@ -32,6 +32,9 @@ const CalendarToday = styled.td`
   height: 107px;
   padding: 7px;
   vertical-align: top;
+  &:hover {
+    opacity: 0.5;
+  }
 `;
 
 const CalendarDays = styled.td`
@@ -42,10 +45,13 @@ const CalendarDays = styled.td`
   padding: 7px;
   vertical-align: top;
   background-color: ${(props) => props.feelingColor};
+  &:hover {
+    opacity: 0.5;
+  }
 `;
 
 const CalendarOtherMonths = styled.td`
-  color: #c0bdbd;
+  color: #737373;
   cursor: pointer;
   width: 120px;
   height: 107px;
@@ -53,6 +59,9 @@ const CalendarOtherMonths = styled.td`
   background-color: ${(props) => props.feelingColor};
   opacity: 0.6;
   vertical-align: top;
+  &:hover {
+    opacity: 0.5;
+  }
 `;
 
 const DayOfTheWeek = styled.td`
@@ -69,6 +78,7 @@ const Calendar = () => {
   const [postDate, setPostDate] = useState('');
   const [visible, setVisible] = useState(false);
   const [getMoment, setMoment] = useState(moment());
+  const [editMode, setEditMode] = useState(false); // test
 
   useEffect(() => {
     dispatch({
@@ -141,7 +151,7 @@ const Calendar = () => {
   };
 
   // 모달
-  const showModal = (e) => {
+  const showModal = useCallback((e) => {
     const year = e.currentTarget.id.substr(0, 4);
     const month = e.currentTarget.id.substr(4, 2);
     const date = e.currentTarget.id.substr(6, 2);
@@ -149,11 +159,12 @@ const Calendar = () => {
     const selectDate = moment(ymd);
     setPostDate(selectDate.format('YYYY-MM-DD')); // string(ex: 2021년 01월 01일)
     setVisible(true);
-  };
+  }, []);
 
-  const handleCancel = () => {
+  const handleCancel = useCallback(() => {
     setVisible(false);
-  };
+    setEditMode(false);
+  }, [visible, editMode]);
 
   return (
     <div>
@@ -192,6 +203,8 @@ const Calendar = () => {
                       post={
                         mainPosts.find((post) => post.date === postDate && id === post.UserId)
                       }
+                      editMode={editMode}
+                      setEditMode={setEditMode}
                     />
                   ) : (
                     <PostForm postDate={postDate} setVisible={setVisible} />
