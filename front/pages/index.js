@@ -24,12 +24,6 @@ const Login = () => {
   const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');
 
-  // useEffect(() => {
-  //   dispatch({
-  //     type: LOAD_MY_INFO_REQUEST,
-  //   });
-  // }, []);
-
   // 로그인 성공 -> 메인페이지 이동
   useEffect(() => {
     if (me) {

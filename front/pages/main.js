@@ -32,7 +32,6 @@ const BackgroundImg = styled.div`
 `;
 
 const Main = () => {
-  const dispatch = useDispatch();
   const router = useRouter();
   const { me } = useSelector((state) => state.user);
 

@@ -31,9 +31,6 @@ const Signup = () => {
     if (signUpDone) {
       router.push('/'); // replace는 뒤로가기시 전페이지 안가짐
     }
-    // dispatch({
-    //   type: RESET_UPLOAD_IMAGE,
-    // });
   }, [signUpDone]);
 
   useEffect(() => {

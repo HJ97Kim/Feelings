@@ -69,7 +69,6 @@ const PostEditForm = ({ post, onCancelUpdate, onChangePost }) => {
 };
 
 PostEditForm.propTypes = {
-  // postData: PropTypes.string.isRequired,
   post: PropTypes.object.isRequired,
   onCancelUpdate: PropTypes.func.isRequired,
   onChangePost: PropTypes.func.isRequired,
