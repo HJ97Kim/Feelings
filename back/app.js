@@ -51,6 +51,6 @@ app.use(passport.session());
 app.use('/post', postRouter); // post가 붙음
 app.use('/user', userRouter); // user가 붙음
 
-app.listen(3065, () => {
+app.listen(80, () => {
   console.log('서버 실행 중');
 });
