@@ -32,7 +32,7 @@ if (process.env.NODE_ENV === 'production') {
   app.use(morgan('dev'));
 }
 app.use(cors({
-  origin: ['http://localhost:3060', 'react-feelings.site', 'http://15.164.95.24'], // 주소
+  origin: ['http://localhost:3060', 'react-feelings.site'], // 주소
   credentials: true, // 쿠키 전달
 }));
 app.use('/', express.static(path.join(__dirname, 'uploads')));
@@ -44,6 +44,11 @@ app.use(session({
   saveUninitialized: false,
   resave: false,
   secret: process.env.COOKIE_SECRET,
+  cookie: {
+    httpOnly: true,
+    secure: false,
+    domain: process.env.NODE_ENV === 'production' && '.react-feelings.site'
+  },
 }));
 app.use(passport.initialize());
 app.use(passport.session());
