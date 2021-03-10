@@ -11,7 +11,6 @@ import { useRouter } from 'next/router';
 import StartLayout from '../components/StartLayout';
 import useInput from '../hooks/useInput';
 import { SIGN_UP_REQUEST, UPLOAD_IMAGE_REQUEST } from '../reducers/user';
-import { backUrl } from '../config/config';
 
 const ErrorMessage = styled.div`
   color: red;
@@ -97,7 +96,7 @@ const Signup = () => {
             <Col xs={12} md={12} offset={6}>
               <h2>회원가입</h2>
               <Form.Item>
-                {profileImagePaths.length > 0 ? <Avatar size={64} src={`${backUrl}/${profileImagePaths}`} /> : <Avatar size={64} icon={<UserOutlined />} />}
+                {profileImagePaths.length > 0 ? <Avatar size={64} src={`${profileImagePaths}`} /> : <Avatar size={64} icon={<UserOutlined />} />}
                 <input type="file" name="image" hidden ref={imageInput} onChange={onChangeImage} />
                 <Button onClick={onClickImageUpload} style={{ marginLeft: '5px', verticalAlign: 'bottom' }}>이미지 업로드</Button>
                 {profileImageError && <ErrorMessage>프로필 이미지를 선택해주세요.</ErrorMessage>}
