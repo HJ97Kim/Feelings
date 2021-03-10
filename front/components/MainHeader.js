@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 
 import ProfileEdit from './ProfileEdit';
 import { logoutRequestAction } from '../reducers/user';
+import { backUrl } from '../config/config';
 
 const MainHeaderWrap = styled.header`
   width: 100%;
@@ -62,7 +63,7 @@ const MainHeader = ({ me }) => {
               <span style={{ paddingRight: '10px', fontWeight: 'bold' }}>{me.nickname}</span>
               <Dropdown overlay={menu} trigger={['click']}>
                 <a className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
-                  <Avatar size={42} src={`http://localhost:3065/${me.img}`} />
+                  <Avatar size={42} src={`${backUrl}/${me.img}`} />
                 </a>
               </Dropdown>
             </Col>

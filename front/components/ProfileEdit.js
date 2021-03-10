@@ -6,6 +6,7 @@ import axios from 'axios';
 
 import useInput from '../hooks/useInput';
 import { CHANGE_NICKNAME_REQUEST, CHANGE_PROFILE_IMG_REQUEST } from '../reducers/user';
+import { backUrl } from '../config/config';
 
 const ProfileEdit = ({ me, setVisible, refresh }) => {
   const dispatch = useDispatch();
@@ -48,7 +49,7 @@ const ProfileEdit = ({ me, setVisible, refresh }) => {
   return (
     <Form style={{ margin: '10px 0 20px' }} encType="multipart/form-data" onFinish={onSubmit}>
       <div>
-        {profileImage.length !== 0 ? <Avatar size={64} src={`http://localhost:3065/${profileImage}`} /> : <Avatar size={64} src={`http://localhost:3065/${me.img}`} />}
+        {profileImage.length !== 0 ? <Avatar size={64} src={`${backUrl}/${profileImage}`} /> : <Avatar size={64} src={`${backUrl}/${me.img}`} />}
         <input type="file" name="image" hidden ref={imageInput} onChange={onChangeImage} />
         <Button onClick={onClickImageUpload} style={{ marginLeft: '5px', verticalAlign: 'bottom' }}>이미지 업로드</Button>
       </div>
