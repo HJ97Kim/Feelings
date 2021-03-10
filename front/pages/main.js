@@ -3,7 +3,7 @@ import Head from 'next/head';
 import styled, { createGlobalStyle } from 'styled-components';
 import axios from 'axios';
 import { Row, Col } from 'antd';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import { END } from 'redux-saga';
 
@@ -20,12 +20,16 @@ const Global = createGlobalStyle`
   div#__next > div {
     min-height: 100vh;
   }
+  
+  body {
+    font-family: 'Gaegu', cursive;
+  }
 `;
 
 const BackgroundImg = styled.div`
   border: 0;
   padding: 0; 
-  background-image: url('https://t1.daumcdn.net/cfile/tistory/26AEB633597644FE1E');
+  background-image: url('background.jpg');
   height: 100%;
   background-position: center;
   background-size: cover;

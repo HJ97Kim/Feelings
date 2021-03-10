@@ -12,12 +12,16 @@ const Global = createGlobalStyle`
   div#__next > div {
     height: 100%;
   }
+
+  body {
+    font-family: 'Gaegu', cursive;
+  }
 `;
 
 const BackgroundImg = styled.div`
   border: 0;
   padding: 0;
-  background-image: url('background.jpeg');
+  background-image: url('background.jpg');
   min-height: 100%;
   background-position: center;
   background-size: cover;

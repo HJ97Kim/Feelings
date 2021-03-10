@@ -24,7 +24,7 @@ const CalendarControl = styled.div`
 `;
 
 const CalendarToday = styled.td`
-  color: #fff;
+  color: #000;
   background: url(${(props) => {
     if (props.feelingColor === '#fb8c00') {
       return 'best.svg';
@@ -58,7 +58,7 @@ const CalendarToday = styled.td`
 `;
 
 const CalendarDays = styled.td`
-  color: #fff;
+  color: #000;
   cursor: pointer;
   width: 120px;
   height: 107px;
@@ -126,6 +126,7 @@ const CalendarOtherMonths = styled.td`
 
 const DayOfTheWeek = styled.td`
   height: 35px;
+  font-size: 20px;
   font-weight: 600;
   text-align: center;
   background-color: #fff;
@@ -230,7 +231,7 @@ const Calendar = () => {
     <div>
       <CalendarControl>
         <LeftOutlined onClick={() => { setMoment(getMoment.clone().subtract(1, 'month')); }} />
-        <div>{today.format('YYYY년 MM월')}</div>
+        <div style={{ fontSize: '24px' }}>{today.format('YYYY년 MM월')}</div>
         <RightOutlined onClick={() => { setMoment(getMoment.clone().add(1, 'month')); }} />
       </CalendarControl>
       <Row justify="space-around" align="middle">

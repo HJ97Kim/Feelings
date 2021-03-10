@@ -87,9 +87,9 @@ const Diary = ({ setVisible, post, editMode, setEditMode }) => {
             <div style={{ textAlign: 'center', marginBottom: '20px' }}>
               {feelingIcon(post.feeling)}
             </div>
-            <div>
+            <pre style={{ fontFamily: 'Gaegu, cursive' }}>
               {post.content}
-            </div>
+            </pre>
             <div style={{ textAlign: 'right' }}>
               <Button type="primary" onClick={onClickUpdate} style={{ marginRight: '5px' }}>
                 수정

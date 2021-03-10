@@ -12,7 +12,7 @@ import { logoutRequestAction } from '../reducers/user';
 const MainHeaderWrap = styled.header`
   width: 100%;
   height: 60px;
-  background: #fff;
+  background-color: rgba( 255, 255, 255, 0.5 );
 `;
 
 const HeaderContents = styled.div`

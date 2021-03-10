@@ -42,7 +42,9 @@ const PostForm = ({ postDate, setVisible }) => {
   }, [addPostDone, postDate]);
 
   const onChangeText = useCallback((e) => {
-    setText(e.target.value);
+    let textValue = e.target.value;
+    textValue = textValue.replaceAll('<br/>', '\r\n');
+    setText(textValue);
   }, [text]);
 
   const onChangeFeelings = useCallback((e) => {
