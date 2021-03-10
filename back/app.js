@@ -28,13 +28,17 @@ if (process.env.NODE_ENV === 'production') {
   app.use(morgan('combined'));
   app.use(hpp());
   app.use(helmet());
+  app.use(cors({
+    origin: 'http://react-feelings.site', // 주소
+    credentials: true, // 쿠키 전달
+  }));
 } else {
   app.use(morgan('dev'));
+  app.use(cors({
+    origin: true,
+    credentials: true, // 쿠키 전달
+  }));
 }
-app.use(cors({
-  origin: ['http://localhost:3060', 'react-feelings.site'], // 주소
-  credentials: true, // 쿠키 전달
-}));
 app.use('/', express.static(path.join(__dirname, 'uploads')));
 // front에서 보낸 req.body를 data에 넣어주는 역할
 app.use(express.json());
