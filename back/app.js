@@ -32,7 +32,7 @@ if (process.env.NODE_ENV === 'production') {
   app.use(morgan('dev'));
 }
 app.use(cors({
-  origin: ['http://localhost:3060', 'feelings.com'], // 주소
+  origin: ['http://localhost:3060', 'feelings.com', 'http://15.164.95.24'], // 주소
   credentials: true, // 쿠키 전달
 }));
 app.use('/', express.static(path.join(__dirname, 'uploads')));
