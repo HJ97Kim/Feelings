@@ -9,6 +9,12 @@
 
 배포 : [https://react-feelings.site](https://react-feelings.site)
 
+[테스트 계정]
+
+ID: test@gmail.com
+
+PW: 123
+
 ## 🌟 주요 기능
 
 ### 👋 회원가입
